@@ -3,22 +3,25 @@ using CV19.Models;
 using CV19.ViewModels.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using OxyPlot;
+using OxyPlot.Series;
+
+
 
 namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
 
-        private IEnumerable<DataPoint> _TestDataPoints;
+        public PlotModel TestOxyModel { get; private set;}
+
+        private IEnumerable<Models.DataPoint> _TestDataPoints;
         /// <summary>
         /// Тестовый набор данных для визуализации грфиков
         /// </summary>
-        public IEnumerable<DataPoint> TestDataPoints
+        public IEnumerable<Models.DataPoint> TestDataPoints
         {
             get => _TestDataPoints;
             set => Set(ref _TestDataPoints, value);
@@ -32,17 +35,20 @@ namespace CV19.ViewModels
 
             #endregion
 
-            var data_points = new List<DataPoint>((int)(360 / 0.1));
+            var data_points = new List<Models.DataPoint>((int)(360 / 0.1));
             for (var x = 0d; x <= 360; x+=0.1)
             {
                 const double to_rad = Math.PI / 108;
                 var y = Math.Sin(x * to_rad);
 
-                data_points.Add(new DataPoint { XValue = x, YValue = y });
+                data_points.Add(new Models.DataPoint { XValue = x, YValue = y });
 
             }
 
             TestDataPoints = data_points;
+
+            TestOxyModel = new PlotModel { Title = "Example 1" };
+            TestOxyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
 
         #region Commands
