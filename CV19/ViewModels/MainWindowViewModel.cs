@@ -7,13 +7,16 @@ using System.Windows;
 using System.Windows.Input;
 using OxyPlot;
 using OxyPlot.Series;
-
-
+using System.Collections.ObjectModel;
+using CV19.Models.Decanat;
+using System.Linq;
 
 namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        /*--------------------------------------------------------------------------------*/
+        public ObservableCollection<Group> Groups { get; }
 
         #region SelectedPageIndex
         private int _SelectedPageIndex;
@@ -42,28 +45,40 @@ namespace CV19.ViewModels
         }
         #endregion
 
-        public MainWindowViewModel()
+        #region Window title
+        private string _Title = "Анализ статистики CV19";
+        /// <summary>
+        /// Заголовок окна
+        /// </summary>
+        public string Title
         {
-            #region Commands
-            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
-            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
-            #endregion
+            get => _Title;
+            //set
+            //{
+            //    //if (Equals(_Title, value)) return;
+            //    //_Title = value;
+            //    //OnPropertyChanged();
 
-            var data_points = new List<Models.DataPoint>((int)(360 / 0.1));
-            for (var x = 0d; x <= 360; x+=0.1)
-            {
-                const double to_rad = Math.PI / 108;
-                var y = Math.Sin(x * to_rad);
-
-                data_points.Add(new Models.DataPoint { XValue = x, YValue = y });
-
-            }
-
-            TestDataPoints = data_points;
-
-            TestOxyModel = new PlotModel { Title = "Example 1" };
-            TestOxyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            //    Set(ref _Title, value);
+            //}
+            set => Set(ref _Title, value);
         }
+
+        #endregion
+
+        #region Status
+        private string _Status = @"Готов!";
+        /// <summary>
+        /// Статус программы
+        /// </summary>
+        public string Status
+        {
+            get => _Status;
+            set => Set(ref _Status, value);
+        }
+        #endregion
+
+        /*--------------------------------------------------------------------------------*/
 
         #region Commands
 
@@ -94,40 +109,52 @@ namespace CV19.ViewModels
 
         #endregion
 
-        #region Window title
-        private string _Title = "Анализ статистики CV19";
-        /// <summary>
-        /// Заголовок окна
-        /// </summary>
-        public string Title
-        {
-            get => _Title;
-            //set
-            //{
-            //    //if (Equals(_Title, value)) return;
-            //    //_Title = value;
-            //    //OnPropertyChanged();
+        /*--------------------------------------------------------------------------------*/
 
-            //    Set(ref _Title, value);
-            //}
-            set => Set(ref _Title, value);
+        public MainWindowViewModel()
+        {
+            #region Commands
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
+            #endregion
+
+            var data_points = new List<Models.DataPoint>((int)(360 / 0.1));
+            for (var x = 0d; x <= 360; x+=0.1)
+            {
+                const double to_rad = Math.PI / 108;
+                var y = Math.Sin(x * to_rad);
+
+                data_points.Add(new Models.DataPoint { XValue = x, YValue = y });
+
+            }
+
+            TestDataPoints = data_points;
+
+            TestOxyModel = new PlotModel { Title = "Example 1" };
+            TestOxyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+
+            var students = Enumerable.Range(1, 20).Select(i => new Student
+            {
+                Name = $"Name {i}",
+                Suname = $"Suname {i}",
+                Patronymic = $"Patronymic {i}",
+                Birthday = DateTime.Now,
+                Rating = 0
+            }) ;
+            var groups = Enumerable.Range(1, 20).Select(i => new Group
+            {
+                Name = $"Группа {i}",
+                Students = new ObservableCollection<Student>(students)
+            });
+
+            Groups = new ObservableCollection<Group>(groups);
+
+
+
         }
 
-        #endregion
+        /*--------------------------------------------------------------------------------*/
 
-
-
-        #region Status
-        private string _Status = @"Готов!";
-        /// <summary>
-        /// Статус программы
-        /// </summary>
-        public string Status
-        {
-            get => _Status;
-            set => Set(ref _Status, value);
-        }
-        #endregion
 
     }
 }
