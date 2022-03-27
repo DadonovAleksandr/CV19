@@ -143,22 +143,11 @@
                             <TextBlock Text="Элементы"/>
                         </GroupBox.Header>
                         <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock Text="{Binding Name, StringFormat=Группа {0}}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat=Студент {0}}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type system:String}">
-                                <TextBlock>
-                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type system:Int32}">
-                                <TextBlock>
-                                    <Run Foreground="Blue" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeListItems.xaml"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
                         </GroupBox.Resources>
                         <ListBox Grid.Column="0" ItemsSource="{Binding CompositeCollection}" 
                              SelectedItem="{Binding SelectedCompositeValue}">
@@ -169,34 +158,11 @@
                             <TextBlock Text="Выбранный элемент"/>
                         </GroupBox.Header>
                         <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock Text="{Binding Name, StringFormat=Группа {0}}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat=Студент {0}}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type system:String}">
-                                <TextBlock>
-                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"
-                                                                                                     HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type system:Int32}">
-                                <TextBlock>
-                                    <Run Foreground="Blue" FontWeight="Bold">Число:</Run> <TextBlock Text="{Binding}"
-                                                                                                     HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"/>
-                                </TextBlock>
-                            </DataTemplate>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeItemsControlDataTemplates.xaml"/>
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
                         </GroupBox.Resources>
                         <ContentControl Content="{Binding SelectedCompositeValue}"/>
                     </GroupBox>
