@@ -25,6 +25,9 @@ namespace CV19
             InitializeComponent();
         }
 
-       
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
