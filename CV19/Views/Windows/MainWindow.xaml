@@ -69,7 +69,15 @@
                     <!--<TextBlock Text="{Binding Source={x:Static l:App.IsDesighnMode}}"/>-->
                     <ListBox ItemsSource="{Binding TestStudents}" 
                              HorizontalAlignment="Left" Width="200" Margin="30"
+                             VirtualizingPanel.IsContainerVirtualizable="True"
+                             VirtualizingPanel.IsVirtualizing="True"
+                             VirtualizingPanel.VirtualizationMode="Recycling"
                              >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -79,7 +87,7 @@
                             <DataTemplate DataType="decanat:Student">
                                 <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" Padding="3">
                                     <Border.CacheMode>
-                                        <BitmapCache/>
+                                        <BitmapCache RenderAtScale="4"/>
                                     </Border.CacheMode>
                                     <StackPanel>
                                         <TextBlock Text="{Binding Suname}" ToolTip="{Binding Name}"/>
@@ -155,7 +163,19 @@
                                 <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
                                 <TextBox/>
                             </DockPanel>
-                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray" AlternatingRowBackground="LightGray">
+                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
+                                      AutoGenerateColumns="False" 
+                                      CanUserAddRows="False" 
+                                      GridLinesVisibility="Vertical" 
+                                      VerticalGridLinesBrush="DarkGray" 
+                                      AlternatingRowBackground="LightGray"
+                                      EnableRowVirtualization="True"
+                                      >
+                                <DataGrid.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel></VirtualizingStackPanel>
+                                    </ItemsPanelTemplate>
+                                </DataGrid.ItemsPanel>
                                 <!--HorizontalGridLinesBrush="Transparent"-->
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Suname}" IsReadOnly="True"/>
