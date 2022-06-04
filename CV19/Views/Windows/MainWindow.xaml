@@ -61,7 +61,7 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}"/>
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
-            <TabItem Header="График">
+            <TabItem Header="График" Visibility="Collapsed">
                 <oxy:PlotView Model="{Binding TestOxyModel}"/>
             </TabItem>
             <TabItem Header="Студенты">
@@ -72,6 +72,11 @@
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Группы">
                         <DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="3,0,0,3">
+                                <!--<TextBlock Text="Фильтр"/>-->
+                                <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
+                                <TextBox/>
+                            </DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
                                 <Button Content="Добавить" Style="{StaticResource CheckButtonStyle}" 
                                         Padding="0,7"
@@ -100,132 +105,45 @@
                         </DockPanel>
                     </GroupBox>
                     <GroupBox Grid.Column="1" Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}">
-                        <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray" AlternatingRowBackground="LightGray">
-                            <!--HorizontalGridLinesBrush="Transparent"-->
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Suname}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Отчство" Binding="{Binding Patronymic}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" IsReadOnly="True"/>
-                                <!--<DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday, StringFormat=dd.MM.yyyy}"/>-->
-                                <DataGridTemplateColumn Header="Дата рождения">
-                                    <!--<DataGridTemplateColumn.CellTemplate>
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="3,0,0,3">
+                                <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
+                                <TextBox/>
+                            </DockPanel>
+                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}" AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="Vertical" VerticalGridLinesBrush="DarkGray" AlternatingRowBackground="LightGray">
+                                <!--HorizontalGridLinesBrush="Transparent"-->
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Фамилия" Binding="{Binding Suname}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Отчство" Binding="{Binding Patronymic}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" IsReadOnly="True"/>
+                                    <!--<DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday, StringFormat=dd.MM.yyyy}"/>-->
+                                    <DataGridTemplateColumn Header="Дата рождения">
+                                        <!--<DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="decanat:Student">
                                             <DatePicker SelectedDate="{Binding Birthday}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>-->
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="decanat:Student">
-                                            <TextBlock Text="{Binding Birthday, StringFormat='dd.MM.yyyy'}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                        <DataTemplate DataType="decanat:Student">
-                                            <DatePicker SelectedDate="{Binding Birthday}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
-                                <DataGridTextColumn Header="Заметки" Binding="{Binding Description}" Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="decanat:Student">
+                                                <TextBlock Text="{Binding Birthday, StringFormat='dd.MM.yyyy'}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate>
+                                            <DataTemplate DataType="decanat:Student">
+                                                <DatePicker SelectedDate="{Binding Birthday}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Группа" Binding="{Binding DataContext.SelectedGroup.Name, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                    <DataGridTextColumn Header="Заметки" Binding="{Binding Description}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Разнородные данные">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox>
-                        <GroupBox.Header>
-                            <TextBlock Text="Элементы"/>
-                        </GroupBox.Header>
-                        <GroupBox.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeListItems.xaml"/>
-                                </ResourceDictionary.MergedDictionaries>
-                            </ResourceDictionary>
-                        </GroupBox.Resources>
-                        <ListBox Grid.Column="0" ItemsSource="{Binding CompositeCollection}" 
-                             SelectedItem="{Binding SelectedCompositeValue}">
-                        </ListBox>
-                    </GroupBox>
-                    <GroupBox Grid.Column="1">
-                        <GroupBox.Header>
-                            <TextBlock Text="Выбранный элемент"/>
-                        </GroupBox.Header>
-                        <GroupBox.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeItemsControlDataTemplates.xaml"/>
-                                </ResourceDictionary.MergedDictionaries>
-                            </ResourceDictionary>
-                        </GroupBox.Resources>
-                        <ContentControl Content="{Binding SelectedCompositeValue}"/>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Вкладка 3">
-                <Button Margin="20,20" VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Content="123" Padding="14,5"
-                        Style="{StaticResource CheckButtonStyle}"
-                        RenderTransformOrigin="0.5, 0.5"
-                        >
-                    <Button.Background>
-                        <SolidColorBrush x:Name="ButtonBrush" Color="White"/>
-                    </Button.Background>
-                    <Button.RenderTransform>
-                        <RotateTransform x:Name="ButtonRotade" Angle="0"/>
-                    </Button.RenderTransform>
-                    <Button.Triggers>
-                        <EventTrigger RoutedEvent="Button.Click">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="ButtonRotade"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="0" To="360" By="0.1"
-                                                     Duration="0:0:1"
-                                                     AutoReverse="True"
-                                                     />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="ButtonBrush"
-                                                    Storyboard.TargetProperty="Color"
-                                                     To="Red"
-                                                     Duration="0:0:1"
-                                                     AutoReverse="True"
-                                                     />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="ButtonBrush"
-                                                    Storyboard.TargetProperty="Color"
-                                                     To="White"
-                                                     Duration="0:0:3"
-                                                     AutoReverse="True"
-                                                     />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
-            </TabItem>
-            <TabItem Header="Вкладка 4"></TabItem>
-            <TabItem Header="Вкладка 5"></TabItem>
-            <TabItem Header="Вкладка 6"></TabItem>
-            <TabItem Header="Вкладка 7"></TabItem>
-            <TabItem Header="Вкладка 8"></TabItem>
-
+            
         </TabControl>
     </DockPanel>
 </Window>
