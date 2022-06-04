@@ -68,7 +68,8 @@
                 <Grid>
                     <!--<TextBlock Text="{Binding Source={x:Static l:App.IsDesighnMode}}"/>-->
                     <ListBox ItemsSource="{Binding TestStudents}" 
-                        HorizontalAlignment="Left" Width="200" Margin="30">
+                             HorizontalAlignment="Left" Width="200" Margin="30"
+                             >
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -77,6 +78,9 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="decanat:Student">
                                 <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" Padding="3">
+                                    <Border.CacheMode>
+                                        <BitmapCache/>
+                                    </Border.CacheMode>
                                     <StackPanel>
                                         <TextBlock Text="{Binding Suname}" ToolTip="{Binding Name}"/>
                                         <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
