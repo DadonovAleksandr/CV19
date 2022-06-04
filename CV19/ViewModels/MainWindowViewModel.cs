@@ -101,6 +101,12 @@ namespace CV19.ViewModels
         }
         #endregion
 
+        public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesighnMode ? 10 : 100_000).Select(i=> new Student
+        {
+            Name = $"Имя {i}",
+            Suname = $"Фамилия {i}"
+        });
+
         /*--------------------------------------------------------------------------------*/
 
         #region Commands

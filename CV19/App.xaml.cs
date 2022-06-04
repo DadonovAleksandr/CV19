@@ -13,5 +13,13 @@ namespace CV19
     /// </summary>
     public partial class App : Application
     {
+        public static bool IsDesighnMode { get; private set; } = true;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            IsDesighnMode = false;
+            base.OnStartup(e);
+        }
+
     }
 }
