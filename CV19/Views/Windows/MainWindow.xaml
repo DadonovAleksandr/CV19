@@ -61,59 +61,25 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}"/>
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
-            <TabItem Header="График" Visibility="Collapsed">
-                <oxy:PlotView Model="{Binding TestOxyModel}"/>
-            </TabItem>
-            <TabItem Header="Тестирование виртуализации">
-                <Grid>
-                    <!--<TextBlock Text="{Binding Source={x:Static l:App.IsDesighnMode}}"/>-->
-                    <ListBox ItemsSource="{Binding TestStudents}" 
-                             HorizontalAlignment="Left" Width="200" Margin="30"
-                             VirtualizingPanel.IsContainerVirtualizable="True"
-                             VirtualizingPanel.IsVirtualizing="True"
-                             VirtualizingPanel.VirtualizationMode="Recycling"
-                             >
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="decanat:Student">
-                                <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" Padding="3">
-                                    <Border.CacheMode>
-                                        <BitmapCache RenderAtScale="4"/>
-                                    </Border.CacheMode>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Suname}" ToolTip="{Binding Name}"/>
-                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
-                                        <TextBlock Text="{Binding Patronymic, TargetNullValue=--}" ToolTip="{Binding Name}"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                </Grid>
-                            </TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="193"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Группы">
+                    <GroupBox Header="Группы" Grid.ColumnSpan="3">
                         <DockPanel>
                             <DockPanel.Resources>
                                 <CollectionViewSource x:Key="GroupsCollection" 
                                                       Source="{Binding Groups}"
                                                       Filter="GroupsCollectionFilter"
-                                                      />
+                                                      >
+                                    <!--<CollectionViewSource.SortDescriptions>
+                                        <SortDescriptions/>
+                                    </CollectionViewSource.SortDescriptions>-->
+                                </CollectionViewSource>
                             </DockPanel.Resources>
                             <DockPanel DockPanel.Dock="Top" Margin="3,0,0,3">
                                 <!--<TextBlock Text="Фильтр"/>-->
@@ -157,20 +123,26 @@
                             </ListBox>
                         </DockPanel>
                     </GroupBox>
-                    <GroupBox Grid.Column="1" Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}">
+                    <GroupBox Grid.Column="3" Header="{Binding SelectedGroup.Name, FallbackValue='Студенты', TargetNullValue='Группа не выбрана'}">
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="3,0,0,3">
                                 <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
-                                <TextBox/>
+                                <TextBox Text="{Binding StudentFilterText, UpdateSourceTrigger=PropertyChanged}"/>
                             </DockPanel>
-                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}" 
+                            <DataGrid ItemsSource="{Binding SelectedGroupStudents}" 
                                       AutoGenerateColumns="False" 
                                       CanUserAddRows="False" 
                                       GridLinesVisibility="Vertical" 
                                       VerticalGridLinesBrush="DarkGray" 
                                       AlternatingRowBackground="LightGray"
                                       EnableRowVirtualization="True"
+                                      
                                       >
+                                <!--<DataGrid.GroupStyle>
+                                    <GroupStyle >
+                                        
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>-->
                                 <DataGrid.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel></VirtualizingStackPanel>
@@ -207,6 +179,94 @@
                         </DockPanel>
                     </GroupBox>
                 </Grid>
+            </TabItem>
+
+            <TabItem Header="График" Visibility="Collapsed">
+                <oxy:PlotView Model="{Binding TestOxyModel}"/>
+            </TabItem>
+            <TabItem Header="Тестирование виртуализации" Visibility="Collapsed">
+                <Grid>
+                    <!--<TextBlock Text="{Binding Source={x:Static l:App.IsDesighnMode}}"/>-->
+                    <ListBox ItemsSource="{Binding TestStudents}" 
+                             HorizontalAlignment="Left" Width="200" Margin="30"
+                             VirtualizingPanel.IsContainerVirtualizable="True"
+                             VirtualizingPanel.IsVirtualizing="True"
+                             VirtualizingPanel.VirtualizationMode="Recycling"
+                             >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="decanat:Student">
+                                <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3" Padding="3">
+                                    <Border.CacheMode>
+                                        <BitmapCache RenderAtScale="4"/>
+                                    </Border.CacheMode>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Suname}" ToolTip="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Patronymic, TargetNullValue=--}" ToolTip="{Binding Name}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Файловая система">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="Директории">
+                        <GroupBox.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type vm:DirectoryViewModel}"
+                                                          ItemsSource="{Binding DirectoryItems}"
+                                                          >
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:ImageAwesome Height="12" Icon="Regular_Folder" Foreground="Yellow" Margin="0,0,3,0"/>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type vm:FileViewModel}">
+                                <StackPanel Orientation="Horizontal" ToolTip="{Binding CreationTime}">
+                                    <fa:ImageAwesome Height="12" Icon="Regular_File" Foreground="Blue" Margin="0,0,3,0"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                            
+                        </GroupBox.Resources>
+                        <!--<ListBox ItemsSource="{Binding DiskRootDir.DirectoryItems}"
+                                 SelectedItem="{Binding SelectedDirectory}"
+                                 SelectedIndex="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="vm:DirectoryViewModel">
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>-->
+                        <TreeView ItemsSource="{Binding DiskRootDir.DirectoryItems}">
+                            
+                        </TreeView>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Файлы">
+                        <ListBox ItemsSource="{Binding SelectedDirectory.Files, Mode=OneWay}"
+                                 DisplayMemberPath="Name"
+                                 />
+                    </GroupBox>
+
+                </Grid>
+                
             </TabItem>
             
         </TabControl>
