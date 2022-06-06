@@ -10,6 +10,8 @@ using OxyPlot.Series;
 using System.Collections.ObjectModel;
 using CV19.Models.Decanat;
 using System.Linq;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace CV19.ViewModels
 {
@@ -30,19 +32,74 @@ namespace CV19.ViewModels
         }
         #endregion
 
-
         #region Выбранная группа студентов
         private Group _SelectedGroup;
 
         public Group SelectedGroup
         {
             get => _SelectedGroup;
-            set => Set(ref _SelectedGroup, value);
+            set
+            {
+                if(!Set(ref _SelectedGroup, value)) return;
+                _SelectedGroupStudents.Source = value?.Students;
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            }
+        }
+        #endregion
+
+
+        #region StudentFilterText
+
+        private string _StudentFilterText;
+
+        /// <summary>
+        /// Текст фильтра студентов
+        /// </summary>
+        public string StudentFilterText
+        {
+            get => _StudentFilterText;
+            set
+            {
+                if(!Set(ref _StudentFilterText, value)) return;
+                _SelectedGroupStudents.View.Refresh();
+            }
+        }
+
+
+        #endregion
+
+        #region SelectedGroupStudents
+        private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+
+        public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
+
+        private void OnStudenFiltred(object sender, FilterEventArgs e)
+        {
+            if(!(e.Item is Student student))
+            {
+                e.Accepted = false;
+                return;
+            }
+            var filtredText = _StudentFilterText;
+            if(string.IsNullOrWhiteSpace(filtredText)) return;
+
+            if (student.Name is null || student.Suname is null) 
+            {
+                e.Accepted = false;
+                return;
+            }
+
+            if (student.Name.Contains(filtredText, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Suname.Contains(filtredText, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Patronymic.Contains(filtredText, StringComparison.OrdinalIgnoreCase)) return;
+
+            e.Accepted = false;
+
         }
         #endregion
 
         #region SelectedPageIndex
-        private int _SelectedPageIndex;
+        private int _SelectedPageIndex = 2;
         /// <summary>
         /// Номер выбранной вкладки
         /// </summary>
@@ -220,7 +277,14 @@ namespace CV19.ViewModels
             data_list.Add(group.Students[0]);
 
             CompositeCollection = data_list.ToArray();
+
+            _SelectedGroupStudents.Filter += OnStudenFiltred;
+            //_SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_SelectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
+
         }
+
+        
 
         /*--------------------------------------------------------------------------------*/
 
