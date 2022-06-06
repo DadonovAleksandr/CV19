@@ -61,6 +61,7 @@
             <StatusBarItem Content="{Binding SelectedPageIndex}"/>
         </StatusBar>
         <TabControl SelectedIndex="{Binding SelectedPageIndex}">
+            
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -184,6 +185,7 @@
             <TabItem Header="График" Visibility="Collapsed">
                 <oxy:PlotView Model="{Binding TestOxyModel}"/>
             </TabItem>
+            
             <TabItem Header="Тестирование виртуализации" Visibility="Collapsed">
                 <Grid>
                     <!--<TextBlock Text="{Binding Source={x:Static l:App.IsDesighnMode}}"/>-->
