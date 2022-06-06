@@ -40,7 +40,7 @@ namespace CV19.ViewModels
             get => _SelectedGroup;
             set
             {
-                if(!Set(ref _SelectedGroup, value)) return;
+                if (!Set(ref _SelectedGroup, value)) return;
                 _SelectedGroupStudents.Source = value?.Students;
                 OnPropertyChanged(nameof(SelectedGroupStudents));
             }
@@ -60,7 +60,7 @@ namespace CV19.ViewModels
             get => _StudentFilterText;
             set
             {
-                if(!Set(ref _StudentFilterText, value)) return;
+                if (!Set(ref _StudentFilterText, value)) return;
                 _SelectedGroupStudents.View.Refresh();
             }
         }
@@ -75,15 +75,15 @@ namespace CV19.ViewModels
 
         private void OnStudenFiltred(object sender, FilterEventArgs e)
         {
-            if(!(e.Item is Student student))
+            if (!(e.Item is Student student))
             {
                 e.Accepted = false;
                 return;
             }
             var filtredText = _StudentFilterText;
-            if(string.IsNullOrWhiteSpace(filtredText)) return;
+            if (string.IsNullOrWhiteSpace(filtredText)) return;
 
-            if (student.Name is null || student.Suname is null) 
+            if (student.Name is null || student.Suname is null)
             {
                 e.Accepted = false;
                 return;
@@ -112,7 +112,7 @@ namespace CV19.ViewModels
         #endregion
 
         #region График
-        public PlotModel TestOxyModel { get; private set;}
+        public PlotModel TestOxyModel { get; private set; }
 
         private IEnumerable<Models.DataPoint> _TestDataPoints;
         /// <summary>
@@ -158,11 +158,27 @@ namespace CV19.ViewModels
         }
         #endregion
 
-        public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesighnMode ? 10 : 100_000).Select(i=> new Student
+        public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesighnMode ? 10 : 100_000).Select(i => new Student
         {
             Name = $"Имя {i}",
             Suname = $"Фамилия {i}"
         });
+
+        public DirectoryViewModel DiskRootDir {get;} = new DirectoryViewModel("c:\\");
+
+        #region SelectedDirectory - выбранная директория
+
+        private DirectoryViewModel _SelectedDirectory;
+
+        public DirectoryViewModel SelectedDirectory
+        {
+            get => _SelectedDirectory;
+            set => Set(ref _SelectedDirectory, value);
+        }
+
+        #endregion
+
+
 
         /*--------------------------------------------------------------------------------*/
 
