@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CV19WPFTest
+namespace CV19
 {
     public partial class MainWindow : Window
     {
