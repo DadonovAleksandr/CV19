@@ -1,14 +1,30 @@
-﻿using CV19.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CV19.Infrastructure.Commands;
+using CV19.ViewModels.Base;
+using System.Windows;
+using System.Windows.Input;
 
 namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel 
     {
+        public MainWindowViewModel()
+        {
+            #region Команды
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+            #endregion
+        }
+
+        #region Команды
+
+        public ICommand CloseApplicationCommand { get; }
+        private void OnCloseApplicationCommandExecuted(object p) 
+        {
+            Application.Current.Shutdown();
+        }
+        private bool CanCloseApplicationCommandExecute(object p) => true;
+
+        #endregion
+
         #region Заголовок окна
         private string _title = "Анализ статиcтики CV19";
 		/// <summary>
