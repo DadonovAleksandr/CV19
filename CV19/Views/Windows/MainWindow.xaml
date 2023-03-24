@@ -11,14 +11,16 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding CloseApplicationCommand}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <cmd:CloseApplicationCommand x:Key="CloseApplicationCmd"/>
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
-                <MenuItem Header="Выход">
-                    <MenuItem.Command>
-                        <cmd:CloseApplicationCommand/>
-                    </MenuItem.Command>
-                </MenuItem>
+                <MenuItem Header="Выход" Command="{StaticResource CloseApplicationCmd}"/>
             </MenuItem>
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
@@ -47,7 +49,11 @@
                                Fill="Blue" Stroke="Red" StrokeThickness="3" 
                                RadiusX="5" RadiusY="7"/>
                     <Ellipse Grid.Column="1" Grid.Row="1"
-                             Fill="Red" Stroke="Blue" StrokeThickness="3"/>
+                             Fill="Red" Stroke="Blue" StrokeThickness="3">
+                        <Ellipse.InputBindings>
+                            <MouseBinding Command="{Binding CloseApplicationCommand}" MouseAction="LeftDoubleClick"/>
+                        </Ellipse.InputBindings>
+                    </Ellipse>
                     <GridSplitter Grid.Column="0" Grid.RowSpan="2"
                                   HorizontalAlignment="Right"
                                   Width="4"/>
