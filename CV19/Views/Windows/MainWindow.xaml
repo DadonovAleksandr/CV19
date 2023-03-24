@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CV19"
         xmlns:vm="clr-namespace:CV19.ViewModels"
         xmlns:cmd="clr-namespace:CV19.Infrastructure.Commands"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
     <Window.DataContext>
@@ -35,7 +36,15 @@
             </StatusBarItem>
         </StatusBar>
         <TabControl>
-            <TabItem Header="Вкладка 1">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Source=""/>-->
+                        <fa:ImageAwesome Icon="Regular_File" Height="13" 
+                                         Foreground="Red" Margin="0,0,5,0"/>
+                        <TextBlock Text="Вкладка 1"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="63*"/>
