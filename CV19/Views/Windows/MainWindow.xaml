@@ -68,7 +68,9 @@
                                   Width="4"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Вкладка 2"/>
+            <TabItem Header="Вкладка 2">
+                <Button Content="Click me!" HorizontalAlignment="Center"/>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>
