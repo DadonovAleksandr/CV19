@@ -11,12 +11,18 @@ const string dataUrl =
 //var csvStr = responce.Content.ReadAsStringAsync().Result;
 //Console.WriteLine(csvStr);
 
-foreach(var line in GetDataLines())
-{
-    Console.WriteLine(line);
-}
+//foreach(var line in GetDataLines())
+//{
+//    Console.WriteLine(line);
+//}
+
+var russia_data = GetData()
+    .First(v => v.Country.Equals("Russia", StringComparison.OrdinalIgnoreCase));
+Console.WriteLine(string.Join("\r\n", GetDates().Zip(russia_data.Counts, (date, count) => $"{date} - {count}")));
 
 Console.ReadLine();
+
+
 
 static async Task<Stream> GetDataStream()
 {
@@ -36,7 +42,7 @@ static IEnumerable<string> GetDataLines()
     {
         var line = dataReader.ReadLine();
         if (line == null) continue; 
-        yield return line;
+        yield return line.Replace("Korea,", "Korea -").Replace("Bonaire,", "Bonaire -");
     }
 }
 
@@ -46,4 +52,20 @@ static DateTime[] GetDates() => GetDataLines()
     .Skip(4)
     .Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
     .ToArray();
+
+static IEnumerable<(string Country, string Province, int[] Counts)> GetData()
+{
+    var lines = GetDataLines()
+        .Skip(1)
+        .Select(line => line.Split(','));
+
+    foreach(var row in lines)
+    {
+        var province = row[0].Trim() ?? string.Empty;
+        var country_name = row[1].Trim(' ', '"') ?? string.Empty;
+        var counts = row.Skip(4).Select(int.Parse).ToArray();
+
+        yield return (country_name, province, counts);
+    }
+}
 
