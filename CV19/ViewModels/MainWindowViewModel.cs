@@ -1,6 +1,8 @@
 ﻿using CV19.Infrastructure.Commands;
 using CV19.Models;
 using CV19.ViewModels.Base;
+using OxyPlot;
+using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -10,9 +12,11 @@ namespace CV19.ViewModels;
 
 internal class MainWindowViewModel : ViewModel 
 {
-    private IEnumerable<DataPoint> _testDataPoints;
+    public PlotModel PlotModel { get; set; }
 
-    public IEnumerable<DataPoint> TestDataPoints
+    private IEnumerable<OxyPlot.DataPoint> _testDataPoints;
+
+    public IEnumerable<OxyPlot.DataPoint> TestDataPoints
     {
         get => _testDataPoints;
         set => Set(ref _testDataPoints, value);
@@ -20,15 +24,20 @@ internal class MainWindowViewModel : ViewModel
 
     public MainWindowViewModel()
     {
-        var data_points = new List<DataPoint>((int)(360/0.1));    
+        var data_points = new List<OxyPlot.DataPoint>((int)(360/0.1));    
         for(var x = 0d; x <= 360; x += 0.1)
         {
             const double to_rad = Math.PI / 180;
             var y = Math.Sin(x * to_rad);
-            data_points.Add(new DataPoint() { XValue = x, YValue = y });
+            data_points.Add(new OxyPlot.DataPoint(x,y));
         }
-
+        
         TestDataPoints = data_points;
+
+        PlotModel = new PlotModel() { Title = "Пример 1"};
+        //PlotModel.Series.Add(new FunctionSeries(Math.Sin, 0, 10, 0.1, "sin(x)"));
+        PlotModel.Series.Add(new LineSeries() { ItemsSource = data_points});
+
 
         #region Команды
         CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);

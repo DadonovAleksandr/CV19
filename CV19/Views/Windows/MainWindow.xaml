@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:CV19.ViewModels"
         xmlns:cmd="clr-namespace:CV19.Infrastructure.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
     <Window.DataContext>
@@ -68,8 +69,8 @@
                                   Width="4"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Вкладка 2">
-                <Button Content="Click me!" HorizontalAlignment="Center"/>
+            <TabItem Header="График">
+                <oxy:PlotView Model="{Binding PlotModel}"/>
             </TabItem>
         </TabControl>
     </DockPanel>
