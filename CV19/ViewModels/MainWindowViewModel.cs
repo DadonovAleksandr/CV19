@@ -12,6 +12,17 @@ namespace CV19.ViewModels;
 
 internal class MainWindowViewModel : ViewModel 
 {
+    #region Номер выбранной вкладки
+    private int _selectedPageindex = 0;
+
+    public int SelectedPageindex
+    {
+        get => _selectedPageindex;
+        set => Set(ref _selectedPageindex, value); 
+    }
+    #endregion
+
+    #region OxyPlot
     public PlotModel PlotModel { get; set; }
 
     private IEnumerable<OxyPlot.DataPoint> _testDataPoints;
@@ -21,6 +32,9 @@ internal class MainWindowViewModel : ViewModel
         get => _testDataPoints;
         set => Set(ref _testDataPoints, value);
     }
+
+    #endregion
+
 
     public MainWindowViewModel()
     {
@@ -41,6 +55,7 @@ internal class MainWindowViewModel : ViewModel
 
         #region Команды
         CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+        ChangeTabindexCommand = new LambdaCommand(OnChangeTabindexCommandExecuted, CanChangeTabindexCommandExecute);
         #endregion
     }
 
@@ -52,6 +67,15 @@ internal class MainWindowViewModel : ViewModel
         Application.Current.Shutdown();
     }
     private bool CanCloseApplicationCommandExecute(object p) => true;
+
+
+    public ICommand ChangeTabindexCommand { get; }
+    private void OnChangeTabindexCommandExecuted(object p)
+    {
+        if(p is null) return;
+        SelectedPageindex += Convert.ToInt32(p);
+    }
+    private bool CanChangeTabindexCommandExecute(object p) => _selectedPageindex >= 0;
 
     #endregion
 
