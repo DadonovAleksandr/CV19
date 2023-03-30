@@ -38,6 +38,7 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
+
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem MinWidth="150" MaxWidth="300" >
                 <TextBlock Text="{Binding Status}"/>
@@ -47,37 +48,23 @@
             </StatusBarItem>
             <StatusBarItem Content="{Binding SelectedPageindex}"/>
         </StatusBar>
+
         <TabControl SelectedIndex="{Binding SelectedPageindex}">
-            <TabItem>
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <!--<Image Source=""/>-->
-                        <fa:ImageAwesome Icon="Regular_File" Height="13" 
-                                         Foreground="Red" Margin="0,0,5,0"/>
-                        <TextBlock Text="Вкладка 1"/>
-                    </StackPanel>
-                </TabItem.Header>
+            <TabItem Header="Студенты">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="63*"/>
-                        <RowDefinition Height="325*"/>
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="157*"/>
-                        <ColumnDefinition Width="637*"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Column="0" Grid.Row="0" Margin="5,7" 
-                               Fill="Blue" Stroke="Red" StrokeThickness="3" 
-                               RadiusX="5" RadiusY="7"/>
-                    <Ellipse Grid.Column="1" Grid.Row="1"
-                             Fill="Red" Stroke="Blue" StrokeThickness="3">
-                        <Ellipse.InputBindings>
-                            <MouseBinding Command="{Binding CloseApplicationCommand}" MouseAction="LeftDoubleClick"/>
-                        </Ellipse.InputBindings>
-                    </Ellipse>
-                    <GridSplitter Grid.Column="0" Grid.RowSpan="2"
-                                  HorizontalAlignment="Right"
-                                  Width="4"/>
+                    <GroupBox Grid.Column="0" Header="Группы">
+                        <ListBox ItemsSource="{Binding Groups}" DisplayMemberPath="Name"/>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="1" Header="Студенты">
+                        <DataGrid>
+                            
+                        </DataGrid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="График">
@@ -89,5 +76,6 @@
             <TabItem Header="Вкладка 5"/>
             <TabItem Header="Вкладка 6"/>
         </TabControl>
+
     </DockPanel>
 </Window>

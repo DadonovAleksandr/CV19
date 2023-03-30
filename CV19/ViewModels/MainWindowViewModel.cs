@@ -1,10 +1,13 @@
 ﻿using CV19.Infrastructure.Commands;
 using CV19.Models;
+using CV19.Models.Decanat;
 using CV19.ViewModels.Base;
 using OxyPlot;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,6 +15,8 @@ namespace CV19.ViewModels;
 
 internal class MainWindowViewModel : ViewModel 
 {
+    /* ------------------------------------------------------------------------------------------------------------ */
+
     #region Номер выбранной вкладки
     private int _selectedPageindex = 0;
 
@@ -35,6 +40,53 @@ internal class MainWindowViewModel : ViewModel
 
     #endregion
 
+    #region Заголовок окна
+    private string _title = "Анализ статиcтики CV19";
+    /// <summary>
+    /// Заголовок окна
+    /// </summary>
+    public string Title
+    {
+        get => _title;
+        set => Set(ref _title, value);
+    }
+    #endregion
+
+    #region Статус
+    private string _status = "Готов!";
+    /// <summary>
+    /// Статус программы
+    /// </summary>
+    public string Status
+    {
+        get => _status;
+        set => Set(ref _status, value);
+    }
+    #endregion
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
+    #region Команды
+
+    public ICommand CloseApplicationCommand { get; }
+    private void OnCloseApplicationCommandExecuted(object p)
+    {
+        Application.Current.Shutdown();
+    }
+    private bool CanCloseApplicationCommandExecute(object p) => true;
+
+
+    public ICommand ChangeTabindexCommand { get; }
+    private void OnChangeTabindexCommandExecuted(object p)
+    {
+        if (p is null) return;
+        SelectedPageindex += Convert.ToInt32(p);
+    }
+    private bool CanChangeTabindexCommandExecute(object p) => _selectedPageindex >= 0;
+
+    #endregion
+
+    /* ------------------------------------------------------------------------------------------------------------ */
 
     public MainWindowViewModel()
     {
@@ -57,51 +109,26 @@ internal class MainWindowViewModel : ViewModel
         CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
         ChangeTabindexCommand = new LambdaCommand(OnChangeTabindexCommandExecuted, CanChangeTabindexCommandExecute);
         #endregion
+        
+        var students = Enumerable.Range(1, 10).Select(i => new Student()
+        {
+            Name = $"Имя {i}",
+            Surname = $"Фамилия {i}",
+            Patronymic = $"Отчество {i}",
+            Birthday = DateTime.Now,
+            Rating = 0
+        });
+        var groups = Enumerable.Range(1, 20).Select(i => new Group()
+        {
+            Name = $"Группа {i}",
+            Students = new ObservableCollection<Student>(students)
+        }); 
+
+        Groups = new ObservableCollection<Group>(groups);
     }
 
-    #region Команды
+    /* ------------------------------------------------------------------------------------------------------------ */
 
-    public ICommand CloseApplicationCommand { get; }
-    private void OnCloseApplicationCommandExecuted(object p) 
-    {
-        Application.Current.Shutdown();
-    }
-    private bool CanCloseApplicationCommandExecute(object p) => true;
-
-
-    public ICommand ChangeTabindexCommand { get; }
-    private void OnChangeTabindexCommandExecuted(object p)
-    {
-        if(p is null) return;
-        SelectedPageindex += Convert.ToInt32(p);
-    }
-    private bool CanChangeTabindexCommandExecute(object p) => _selectedPageindex >= 0;
-
-    #endregion
-
-    #region Заголовок окна
-    private string _title = "Анализ статиcтики CV19";
-	/// <summary>
-	/// Заголовок окна
-	/// </summary>
-	public string Title
-	{
-		get => _title;
-		set => Set(ref _title, value);
-	}
-    #endregion
-
-    #region Статус
-    private string _status = "Готов!";
-    /// <summary>
-    /// Статус программы
-    /// </summary>
-    public string Status
-    {
-        get => _status;
-        set => Set(ref _status, value);
-    }
-    #endregion
-
+    public ObservableCollection<Group> Groups { get; set; }
 
 }
