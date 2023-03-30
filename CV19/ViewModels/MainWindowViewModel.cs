@@ -131,4 +131,17 @@ internal class MainWindowViewModel : ViewModel
 
     public ObservableCollection<Group> Groups { get; set; }
 
+
+    #region Выбранная группа
+    private Group _selectedGroup;
+    /// <summary>
+    /// Выбранная группа
+    /// </summary>
+    public Group SelectedGroup
+    {
+        get => _selectedGroup;
+        set => Set(ref _selectedGroup, value);
+    }
+    #endregion
+
 }
