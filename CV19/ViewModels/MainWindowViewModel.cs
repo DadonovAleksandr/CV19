@@ -68,14 +68,16 @@ internal class MainWindowViewModel : ViewModel
 
     #region Команды
 
+    #region CloseApplicationCommand
     public ICommand CloseApplicationCommand { get; }
     private void OnCloseApplicationCommandExecuted(object p)
     {
         Application.Current.Shutdown();
     }
     private bool CanCloseApplicationCommandExecute(object p) => true;
+    #endregion
 
-
+    #region ChangeTabindexCommand
     public ICommand ChangeTabindexCommand { get; }
     private void OnChangeTabindexCommandExecuted(object p)
     {
@@ -83,6 +85,35 @@ internal class MainWindowViewModel : ViewModel
         SelectedPageindex += Convert.ToInt32(p);
     }
     private bool CanChangeTabindexCommandExecute(object p) => _selectedPageindex >= 0;
+    #endregion
+
+    #region CreateNewGroupCommand
+    public ICommand CreateNewGroupCommand { get; }
+    private void OnCreateNewGroupCommandExecuted(object p)
+    {
+        var group_max_index = Groups.Count + 1;
+        var newGroup = new Group
+        {
+            Name = $"Группа {group_max_index}",
+            Students = new ObservableCollection<Student>()
+        };
+        Groups.Add(newGroup);
+    }
+    private bool CanCreateNewGroupCommandExecute(object p) => true;
+    #endregion
+
+    #region DeleteNewGroupCommand
+    public ICommand DeleteNewGroupCommand { get; }
+    private void OnDeleteNewGroupCommandExecuted(object p)
+    {
+        if (!(p is Group group)) return;
+        var index = Groups.IndexOf(group);
+        Groups.Remove(group);
+        if(index < Groups.Count)
+            SelectedGroup = Groups[index];
+    }
+    private bool CanDeleteNewGroupCommandExecute(object p) => p is Group group && Groups.Contains(group);
+    #endregion
 
     #endregion
 
@@ -108,6 +139,8 @@ internal class MainWindowViewModel : ViewModel
         #region Команды
         CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
         ChangeTabindexCommand = new LambdaCommand(OnChangeTabindexCommandExecuted, CanChangeTabindexCommandExecute);
+        CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupCommandExecuted, CanCreateNewGroupCommandExecute);
+        DeleteNewGroupCommand = new LambdaCommand(OnDeleteNewGroupCommandExecuted, CanDeleteNewGroupCommandExecute);
         #endregion
         
         var students = Enumerable.Range(1, 10).Select(i => new Student()
