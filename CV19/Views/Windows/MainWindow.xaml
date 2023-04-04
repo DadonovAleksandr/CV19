@@ -118,92 +118,9 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="График">
+            <TabItem Header="График" Visibility="Collapsed">
                 <oxy:PlotView Model="{Binding PlotModel}"/>
             </TabItem>
-            <TabItem Header="Разнородные данные">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Header="Элементы">
-                        <GroupBox.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeListItemsDataTemplates.xaml"/>
-                                </ResourceDictionary.MergedDictionaries>
-                            </ResourceDictionary>
-                        </GroupBox.Resources>
-                        <ListBox ItemsSource="{Binding CompositeCollection}" SelectedItem="{Binding SelectedCompositeValue}"/>
-                    </GroupBox>
-                    <GroupBox Header="Выбранный элемент" Grid.Column="1">
-                        <GroupBox.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="../../Resources/DataTemplates/CompositeItemsControlDataTemplates.xaml"/>
-                                </ResourceDictionary.MergedDictionaries>
-                            </ResourceDictionary>
-                        </GroupBox.Resources>
-                        <ContentControl Content="{Binding SelectedCompositeValue}"/>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Вкладка 3">
-                <Button Content="123" 
-                        Style="{StaticResource CustomButtonStyle}"
-                        Padding="10,5"
-                        Margin="20,20"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        RenderTransformOrigin="0.5, 0.5"
-                        Width="100">
-                    <Button.Background>
-                        <SolidColorBrush x:Name="ButtonBrush" Color="White"/>
-                    </Button.Background>
-                    <Button.Triggers>
-                        <EventTrigger RoutedEvent="Button.Click">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="ButtonRotate"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="0" To="360"
-                                                     Duration="0:0:1"
-                                                     AutoReverse="True"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="ButtonBrush"
-                                                     Storyboard.TargetProperty="Color"
-                                                     To="Red"
-                                                     Duration="0:0:1"
-                                                     />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="ButtonBrush"
-                                                     Storyboard.TargetProperty="Color"
-                                                     To="White"
-                                                     Duration="0:0:3"
-                                                     />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-                    <Button.RenderTransform>
-                        <RotateTransform Angle="0" x:Name="ButtonRotate"/>
-                    </Button.RenderTransform>
-                </Button>
-            </TabItem>
-            <TabItem Header="Вкладка 4"/>
-            <TabItem Header="Вкладка 5"/>
-            <TabItem Header="Вкладка 6"/>
         </TabControl>
 
     </DockPanel>
