@@ -17,6 +17,7 @@ internal class Student
 internal class Group
 {
     public string Name { get; set; }
+    public string Description { get; set; }
     public ICollection<Student> Students { get; set; }
 
 }
