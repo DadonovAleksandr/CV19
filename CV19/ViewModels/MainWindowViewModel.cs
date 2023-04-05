@@ -201,4 +201,12 @@ internal class MainWindowViewModel : ViewModel
     }
     #endregion
 
+
+    public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesignMode ? 10 : 100000).Select(i => new Student()
+    {
+        Name = $"Имя {i}",
+        Surname = $"Фамилия {i}"
+    });
+
+
 }
