@@ -7,8 +7,10 @@ using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace CV19.ViewModels;
@@ -18,7 +20,7 @@ internal class MainWindowViewModel : ViewModel
     /* ------------------------------------------------------------------------------------------------------------ */
 
     #region Номер выбранной вкладки
-    private int _selectedPageindex = 0;
+    private int _selectedPageindex = 1;
 
     public int SelectedPageindex
     {
@@ -168,7 +170,13 @@ internal class MainWindowViewModel : ViewModel
         dataList.Add(group.Students.ToArray()[0]);
 
         CompositeCollection = dataList.ToArray();
+
+        _SelectedGroupStudents.Filter += OnStudentsFiltred;
+        //_SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+        //_SelectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
     }
+
+    
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
@@ -183,9 +191,55 @@ internal class MainWindowViewModel : ViewModel
     public Group SelectedGroup
     {
         get => _selectedGroup;
-        set => Set(ref _selectedGroup, value);
+        set
+        {
+            if (!Set(ref _selectedGroup, value)) return;
+
+            _SelectedGroupStudents.Source = value?.Students;
+            OnPropertyChanged(nameof(SelectedGroupStudents));
+        }
     }
     #endregion
+
+    private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+    public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
+
+    private void OnStudentsFiltred(object sender, FilterEventArgs e)
+    {
+        if(!(e.Item is Student student))
+        {
+            e.Accepted = false;
+            return;
+        }
+        var filter_text = _StudentFilterText;
+        if(string.IsNullOrWhiteSpace(filter_text)) { return; }
+
+        if(student.Name is null || student.Surname is null || student.Patronymic is null)
+        {
+            e.Accepted = false;
+            return;
+        }
+        if (student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+        if (student.Surname.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+        if (student.Patronymic.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+
+        e.Accepted = false;
+    }
+
+    #region Текст фильтра студентов
+    private string _StudentFilterText;
+    public string StudentFilterText
+    {
+        get => _StudentFilterText;
+        set
+        {
+            if(!Set(ref _StudentFilterText, value)) return;
+            _SelectedGroupStudents.View.Refresh();
+
+        }
+    }
+    #endregion
+
 
     public object[] CompositeCollection { get; }
 
