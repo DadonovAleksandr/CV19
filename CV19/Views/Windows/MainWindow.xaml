@@ -51,7 +51,45 @@
         </StatusBar>
 
         <TabControl SelectedIndex="{Binding SelectedPageindex}">
-            <TabItem Header="Тестирование виртуализации">
+            <TabItem Header="Файловая система">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="Директории">
+                        <!--<ListBox ItemsSource="{Binding DiskRootDir.DirectoryItems}" 
+                                 SelectedItem="{Binding SelectedDirectory}"
+                                 SelectedIndex="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="vm:DirectoryViewModel">
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>-->
+                        <TreeView ItemsSource="{Binding DiskRootDir.DirectoryItems}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="vm:DirectoryViewModel" ItemsSource="{Binding DirectoryItems}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:ImageAwesome Height="12" Icon="Regular_Folder" Foreground="Yellow" Margin="0,0,3,0"/>
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Файлы">
+                        <ListBox ItemsSource="{Binding SelectedDirectory.Files, Mode=OneWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="vm:FileViewModel">
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Тестирование виртуализации" Visibility="Collapsed">
                 <ListBox HorizontalAlignment="Left" Width="200" Margin="30" 
                          ItemsSource="{Binding TestStudents}"
                          VirtualizingPanel.IsVirtualizing="True"
