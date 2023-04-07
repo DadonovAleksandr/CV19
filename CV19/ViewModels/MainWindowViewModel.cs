@@ -262,5 +262,15 @@ internal class MainWindowViewModel : ViewModel
         Surname = $"Фамилия {i}"
     });
 
+    public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+
+    private DirectoryViewModel _selectedDirectory;
+
+    public DirectoryViewModel SelectedDirectory
+    {
+        get => _selectedDirectory;
+        set => Set(ref _selectedDirectory, value);
+    }
+
 
 }
