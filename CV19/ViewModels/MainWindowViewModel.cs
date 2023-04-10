@@ -169,8 +169,6 @@ internal class MainWindowViewModel : ViewModel
         dataList.Add(group);
         dataList.Add(group.Students.ToArray()[0]);
 
-        CompositeCollection = dataList.ToArray();
-
         _SelectedGroupStudents.Filter += OnStudentsFiltred;
         //_SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
         //_SelectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
@@ -240,37 +238,12 @@ internal class MainWindowViewModel : ViewModel
     }
     #endregion
 
-
-    public object[] CompositeCollection { get; }
-
-    #region SelectedCompositeValue
-    private object _selectedCompositeValue;
-    /// <summary>
-    /// SelectedCompositeValue
-    /// </summary>
-    public object SelectedCompositeValue
-    {
-        get => _selectedCompositeValue;
-        set => Set(ref _selectedCompositeValue, value);
-    }
-    #endregion
-
-
     public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesignMode ? 10 : 100000).Select(i => new Student()
     {
         Name = $"Имя {i}",
         Surname = $"Фамилия {i}"
     });
 
-    public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
-
-    private DirectoryViewModel _selectedDirectory;
-
-    public DirectoryViewModel SelectedDirectory
-    {
-        get => _selectedDirectory;
-        set => Set(ref _selectedDirectory, value);
-    }
 
 
 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -25,7 +26,7 @@ internal class DataService
 
     static IEnumerable<string> GetDataLines()
     {
-        using var dataStream = GetDataStream().Result;
+        using var dataStream = (SynchronizationContext.Current is null ? GetDataStream() : Task.Run(GetDataStream)).Result;
         using var dataReader = new StreamReader(dataStream);
 
         while (!dataReader.EndOfStream)
@@ -34,6 +35,7 @@ internal class DataService
             if (line == null) continue;
             yield return line
                 .Replace("Korea,", "Korea -")
+                .Replace("Saint Helena,", "Saint Helena -")
                 .Replace("Bonaire,", "Bonaire -");
         }
     }
@@ -55,8 +57,10 @@ internal class DataService
         {
             var province = row[0].Trim() ?? string.Empty;
             var country_name = row[1].Trim(' ', '"') ?? string.Empty;
-            var latitude = double.Parse(row[2].Trim(), CultureInfo.InvariantCulture);
-            var longitude = double.Parse(row[3].Trim(), CultureInfo.InvariantCulture); 
+            var latitude = 0.0;
+            var longitude = 0.0;
+            double.TryParse(row[2].Trim(), CultureInfo.InvariantCulture, out latitude);
+            double.TryParse(row[3].Trim(), CultureInfo.InvariantCulture, out longitude); 
             var counts = row.Skip(4).Select(int.Parse).ToArray();
 
             yield return new (province, country_name, (latitude, longitude), counts);
