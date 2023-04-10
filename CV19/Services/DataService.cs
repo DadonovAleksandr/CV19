@@ -32,7 +32,9 @@ internal class DataService
         {
             var line = dataReader.ReadLine();
             if (line == null) continue;
-            yield return line.Replace("Korea,", "Korea -").Replace("Bonaire,", "Bonaire -");
+            yield return line
+                .Replace("Korea,", "Korea -")
+                .Replace("Bonaire,", "Bonaire -");
         }
     }
 
