@@ -19,6 +19,8 @@ internal class MainWindowViewModel : ViewModel
 {
     /* ------------------------------------------------------------------------------------------------------------ */
 
+    private readonly CountriesStatisticViewModel _countriesStatistic;
+
     #region Номер выбранной вкладки
     private int _selectedPageindex = 1;
 
@@ -123,6 +125,9 @@ internal class MainWindowViewModel : ViewModel
 
     public MainWindowViewModel()
     {
+        _countriesStatistic = new CountriesStatisticViewModel(this);
+
+
         var data_points = new List<OxyPlot.DataPoint>((int)(360/0.1));    
         for(var x = 0d; x <= 360; x += 0.1)
         {
