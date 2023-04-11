@@ -12,7 +12,6 @@ internal class CountryInfo : PlaceInfo
     {
         get
         {
-            if (_Location != null) return _Location;
             if (ProvinceCounts is null) return default;
 
             var average_x = ProvinceCounts.Average(p => p.Location.X);
@@ -24,5 +23,10 @@ internal class CountryInfo : PlaceInfo
     }
 
     public IEnumerable<PlaceInfo> ProvinceCounts { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Name} ({Location.X}, {Location.Y})";
+    }
 }
 

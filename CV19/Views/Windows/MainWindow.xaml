@@ -53,7 +53,7 @@
 
         <TabControl SelectedIndex="{Binding SelectedPageindex}">
             <TabItem Header="Статистика">
-                <view:CountriesStatisticView/>
+                <view:CountriesStatisticView DataContext="{Binding CountriesStatistic}"/>
             </TabItem>
             
             <TabItem Header="Тестирование виртуализации" Visibility="Collapsed">
