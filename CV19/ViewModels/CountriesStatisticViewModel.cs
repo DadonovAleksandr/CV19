@@ -15,6 +15,7 @@ internal class CountriesStatisticViewModel : ViewModel
 
     private DataService dataService;
 
+    #region Статистика по странам
     private IEnumerable<CountryInfo> _countries ;
 
     public IEnumerable<CountryInfo> Countries
@@ -22,6 +23,17 @@ internal class CountriesStatisticViewModel : ViewModel
         get => _countries;
         set => Set(ref _countries, value);
     }
+    #endregion
+
+    #region Выбранная страна
+    private CountryInfo _selectedCountry;
+
+    public CountryInfo SelectedCountry
+    {
+        get => _selectedCountry;
+        set => Set(ref _selectedCountry, value);
+    }
+    #endregion
 
 
 
