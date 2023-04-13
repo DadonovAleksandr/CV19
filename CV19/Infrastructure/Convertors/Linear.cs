@@ -1,20 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace CV19.Infrastructure.Convertors;
 
 /// <summary>
 /// Реализация линейного преобразования f(x) = k*x + b
 /// </summary>
+[ValueConversion(typeof(double), typeof(double))]
 internal class Linear : Convertor
 {
+    [ConstructorArgument("K")]
     public double K { get; set; } = 1;
+    [ConstructorArgument("B")]
     public double B { get; set; } = 0;
 
+    public Linear() { }
+
+    public Linear(double k) => K = k;
+
+    public Linear(double k, double b) : this(k) => B = b;
+    
 
     public override object Convert(object value, Type t, object p, CultureInfo c)
     {

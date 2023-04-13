@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Data;
 
 namespace CV19.Infrastructure.Convertors;
 
+[ValueConversion(typeof(Point), typeof(string))]
 internal class LocationPointToStr : Convertor
 {
-    public override object Convert(object v, Type t, object p, CultureInfo c)
+    public override object Convert(object value, Type t, object p, CultureInfo c)
     {
-        if (!(v is Point point)) return null;
+        if (!(value is Point point)) return null;
 
         return $"Lat:{point.X}; Lon:{point.Y}";
     }
 
-    public override object ConvertBack(object v, Type t, object p, CultureInfo c)
+    public override object ConvertBack(object value, Type t, object p, CultureInfo c)
     {
-        if (!(v is String str)) return null;
+        if (!(value is String str)) return null;
 
         var components = str.Split(";");
         var lat_str = components[0].Split(":")[1];

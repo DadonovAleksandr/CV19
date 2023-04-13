@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace CV19.Infrastructure.Convertors;
 
+[ValueConversion(typeof(double), typeof(double))]
 internal class Ratio : Convertor
 {
     [ConstructorArgument("K")]
