@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace CV19.Infrastructure.Convertors;
 
+[MarkupExtensionReturnType(typeof(CompositeConvertor))]
 internal class CompositeConvertor : Convertor
 {
-
+    [ConstructorArgument("First")]
     public IValueConverter First { get; set; }
+    [ConstructorArgument("Second")]
     public IValueConverter Second { get; set; }
+
+
+    public CompositeConvertor() { }
+    public CompositeConvertor(IValueConverter first) => First = first;
+
+    public CompositeConvertor(IValueConverter first, IValueConverter second) : this(first) => Second = second;
 
 
     public override object Convert(object value, Type t, object p, CultureInfo c)

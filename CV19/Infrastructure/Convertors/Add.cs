@@ -6,22 +6,22 @@ using System.Windows.Markup;
 namespace CV19.Infrastructure.Convertors;
 
 [ValueConversion(typeof(double), typeof(double))]
-[MarkupExtensionReturnType(typeof(Ratio))]
-internal class Ratio : Convertor
+[MarkupExtensionReturnType(typeof(Add))]
+class Add : Convertor
 {
-    [ConstructorArgument("K")]
-    public double K { get; set; } = 1;
+    [ConstructorArgument("B")]
+    public double B { get; set; } = 0;
 
-    public Ratio() { }
+    public Add() { }
 
-    public Ratio(double k) { K = k; }
+    public Add(double b) { B = b; }
 
     public override object Convert(object value, Type t, object p, CultureInfo c)
     {
         if (value is null) return null;
         var x = System.Convert.ToDouble(value, c);
 
-        return x * K;
+        return x + B;
     }
 
     public override object ConvertBack(object value, Type t, object p, CultureInfo c)
@@ -31,9 +31,8 @@ internal class Ratio : Convertor
 
         var x = System.Convert.ToDouble(value, c);
 
-        return x / K;
+        return x - B;
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
-    
 }
