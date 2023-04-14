@@ -11,10 +11,11 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:view="clr-namespace:CV19.Views"
         mc:Ignorable="d"
+        DataContext="{vm:MainWindowViewModel}"
         Title="{Binding Title}" Height="450" Width="1000">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding CloseApplicationCommand}"/>
     </Window.InputBindings>

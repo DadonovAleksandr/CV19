@@ -12,9 +12,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace CV19.ViewModels;
 
+[MarkupExtensionReturnType(typeof(MainWindowViewModel))]
 internal class MainWindowViewModel : ViewModel 
 {
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -76,7 +78,9 @@ internal class MainWindowViewModel : ViewModel
     public ICommand CloseApplicationCommand { get; }
     private void OnCloseApplicationCommandExecuted(object p)
     {
-        Application.Current.Shutdown();
+        //Application.Current.Shutdown();
+        (RootObject as Window)?.Close();
+
     }
     private bool CanCloseApplicationCommandExecute(object p) => true;
     #endregion
