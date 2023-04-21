@@ -2,8 +2,13 @@
 using CV19.Models;
 using CV19.Services;
 using CV19.ViewModels.Base;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Legends;
+using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Input;
 
@@ -14,6 +19,8 @@ internal class CountriesStatisticViewModel : ViewModel
     private MainWindowViewModel _mainVm { get; }
 
     private DataService dataService;
+
+    List<OxyPlot.DataPoint> dataPoints = new();
 
     #region Статистика по странам
     private IEnumerable<CountryInfo> _countries ;
@@ -31,13 +38,23 @@ internal class CountriesStatisticViewModel : ViewModel
     public CountryInfo SelectedCountry
     {
         get => _selectedCountry;
-        set => Set(ref _selectedCountry, value);
+        set
+        {
+            Set(ref _selectedCountry, value);
+            PlotLine.Points.Clear();
+            PlotLine.Title = _selectedCountry.Name;
+            PlotLine.LegendKey = _selectedCountry.Name;
+            PlotLine.LineLegendPosition = LineLegendPosition.Start;
+            PlotLine.Points.AddRange(_selectedCountry.Counts.Select(p => new OxyPlot.DataPoint(DateTimeAxis.ToDouble(p.Date), p.Count)));
+            PlotModel.InvalidatePlot(true);
+            OnPropertyChanged(nameof(PlotModel));
+        }
     }
     #endregion
 
 
 
-    #region Команды
+        #region Команды
 
     public ICommand RefreshDataCommand { get; }
 
@@ -61,7 +78,7 @@ internal class CountriesStatisticViewModel : ViewModel
         _countries = Enumerable.Range(1, 10).Select(i => new CountryInfo
         {
             Name = $"Country {i}",
-            ProvinceCounts = Enumerable.Range(1, 10).Select(j => new PlaceInfo
+            Provinces = Enumerable.Range(1, 10).Select(j => new PlaceInfo
             {
                 Name = $"Province {j}",
                 Location = new System.Windows.Point(i, j),
@@ -82,7 +99,46 @@ internal class CountriesStatisticViewModel : ViewModel
         #region Команды
         RefreshDataCommand = new LambdaCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute);
         #endregion
+        
+        dataPoints = new List<OxyPlot.DataPoint>((int)(360 / 0.1));
+        for (var x = 0d; x <= 360; x += 0.1)
+        {
+            const double to_rad = Math.PI / 180;
+            var y = Math.Sin(x * to_rad);
+            dataPoints.Add(new OxyPlot.DataPoint(x, y));
+        }
 
-
+        PlotModel = new PlotModel() 
+        { 
+            Title = "Статистика Ковид",
+            
+        };
+        PlotLine = new OxyPlot.Series.LineSeries()
+        {
+            Color = OxyPlot.OxyColors.Red,
+            StrokeThickness = 1
+        };
+        var dateAxis = new DateTimeAxis()  
+        { 
+            MajorGridlineStyle = LineStyle.Solid, 
+            MinorGridlineStyle = LineStyle.Dot, 
+            IntervalLength = 80,
+            StringFormat = "dd.MM.yyyy",
+            Title = "Дата" 
+        };
+        PlotModel.Axes.Add(dateAxis);
+        var valueAxis = new LinearAxis() { MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Кол-во заболевших" };
+        PlotModel.Axes.Add(valueAxis);
+        PlotModel.Series.Add(PlotLine);
     }
+
+
+    #region OxyPlot
+    public PlotModel PlotModel { get; set; }
+
+    private LineSeries PlotLine { get; set; }
+
+    #endregion
+
+
 }

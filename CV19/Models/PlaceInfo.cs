@@ -7,6 +7,6 @@ internal class PlaceInfo
 {
     public string Name { get; set; }
     public virtual Point Location { get; set; }
-    public IEnumerable<ConfirmedCount> Counts { get; set; }
+    public virtual IEnumerable<ConfirmedCount> Counts { get; set; }
 }
 
