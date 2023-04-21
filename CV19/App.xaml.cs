@@ -12,9 +12,6 @@ namespace CV19
         {
             IsDesignMode = false;
             base.OnStartup(e);
-
-            var serviceTest = new DataService();
-            var countries = serviceTest.GetData().ToArray();        
         }
     }
 }

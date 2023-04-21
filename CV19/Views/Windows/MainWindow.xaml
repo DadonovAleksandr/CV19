@@ -9,11 +9,13 @@
         xmlns:cmd="clr-namespace:CV19.Infrastructure.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:view="clr-namespace:CV19.Views"
         mc:Ignorable="d"
+        DataContext="{vm:MainWindowViewModel}"
         Title="{Binding Title}" Height="450" Width="1000">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding CloseApplicationCommand}"/>
     </Window.InputBindings>
@@ -51,50 +53,10 @@
         </StatusBar>
 
         <TabControl SelectedIndex="{Binding SelectedPageindex}">
-            <TabItem Header="Файловая система">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Grid.Column="0" Header="Директории">
-                        <GroupBox.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type vm:DirectoryViewModel}" ItemsSource="{Binding DirectoryItems}">
-                                <StackPanel Orientation="Horizontal" ToolTip="{Binding CreationTime}">
-                                    <fa:ImageAwesome Height="12" Icon="Regular_Folder" Foreground="Yellow" Margin="0,0,3,0"/>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                            <HierarchicalDataTemplate DataType="{x:Type vm:FileViewModel}">
-                                <StackPanel Orientation="Horizontal" ToolTip="{Binding CreationTime}">
-                                    <fa:ImageAwesome Height="12" Icon="Regular_File" Foreground="Blue" Margin="0,0,3,0"/>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                        </GroupBox.Resources>
-                        <!--<ListBox ItemsSource="{Binding DiskRootDir.DirectoryItems}" 
-                                 SelectedItem="{Binding SelectedDirectory}"
-                                 SelectedIndex="0">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="vm:DirectoryViewModel">
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>-->
-                        <TreeView ItemsSource="{Binding DiskRootDir.DirectoryItems}">
-                        </TreeView>
-                    </GroupBox>
-                    <GroupBox Grid.Column="1" Header="Файлы">
-                        <ListBox ItemsSource="{Binding SelectedDirectory.Files, Mode=OneWay}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="vm:FileViewModel">
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </GroupBox>
-                </Grid>
+            <TabItem Header="Статистика">
+                <view:CountriesStatisticView DataContext="{Binding CountriesStatistic}"/>
             </TabItem>
+            
             <TabItem Header="Тестирование виртуализации" Visibility="Collapsed">
                 <ListBox HorizontalAlignment="Left" Width="200" Margin="30" 
                          ItemsSource="{Binding TestStudents}"

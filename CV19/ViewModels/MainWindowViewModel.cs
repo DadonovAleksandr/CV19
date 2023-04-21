@@ -12,15 +12,19 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace CV19.ViewModels;
 
+[MarkupExtensionReturnType(typeof(MainWindowViewModel))]
 internal class MainWindowViewModel : ViewModel 
 {
     /* ------------------------------------------------------------------------------------------------------------ */
 
+    public CountriesStatisticViewModel CountriesStatistic { get; }
+
     #region Номер выбранной вкладки
-    private int _selectedPageindex = 1;
+    private int _selectedPageindex = 0;
 
     public int SelectedPageindex
     {
@@ -74,7 +78,9 @@ internal class MainWindowViewModel : ViewModel
     public ICommand CloseApplicationCommand { get; }
     private void OnCloseApplicationCommandExecuted(object p)
     {
-        Application.Current.Shutdown();
+        //Application.Current.Shutdown();
+        (RootObject as Window)?.Close();
+
     }
     private bool CanCloseApplicationCommandExecute(object p) => true;
     #endregion
@@ -123,6 +129,9 @@ internal class MainWindowViewModel : ViewModel
 
     public MainWindowViewModel()
     {
+        CountriesStatistic = new CountriesStatisticViewModel(this);
+
+
         var data_points = new List<OxyPlot.DataPoint>((int)(360/0.1));    
         for(var x = 0d; x <= 360; x += 0.1)
         {
@@ -168,8 +177,6 @@ internal class MainWindowViewModel : ViewModel
         var group = Groups[1];
         dataList.Add(group);
         dataList.Add(group.Students.ToArray()[0]);
-
-        CompositeCollection = dataList.ToArray();
 
         _SelectedGroupStudents.Filter += OnStudentsFiltred;
         //_SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
@@ -240,37 +247,12 @@ internal class MainWindowViewModel : ViewModel
     }
     #endregion
 
-
-    public object[] CompositeCollection { get; }
-
-    #region SelectedCompositeValue
-    private object _selectedCompositeValue;
-    /// <summary>
-    /// SelectedCompositeValue
-    /// </summary>
-    public object SelectedCompositeValue
-    {
-        get => _selectedCompositeValue;
-        set => Set(ref _selectedCompositeValue, value);
-    }
-    #endregion
-
-
     public IEnumerable<Student> TestStudents => Enumerable.Range(1, App.IsDesignMode ? 10 : 100000).Select(i => new Student()
     {
         Name = $"Имя {i}",
         Surname = $"Фамилия {i}"
     });
 
-    public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
-
-    private DirectoryViewModel _selectedDirectory;
-
-    public DirectoryViewModel SelectedDirectory
-    {
-        get => _selectedDirectory;
-        set => Set(ref _selectedDirectory, value);
-    }
 
 
 }
