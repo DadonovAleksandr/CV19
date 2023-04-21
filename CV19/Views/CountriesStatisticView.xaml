@@ -9,6 +9,7 @@
              xmlns:m="clr-namespace:CV19.Models"
              xmlns:c="clr-namespace:CV19.Infrastructure.Convertors"
              xmlns:common="clr-namespace:CV19.Infrastructure.Common"
+             xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
              xmlns:fa="http://schemas.fontawesome.com/icons/"
              xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
@@ -65,10 +66,13 @@
                 </Grid.RowDefinitions>
                 <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
                 <oxy:PlotView Grid.Row="0" Model="{Binding PlotModel, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Grid.Row="1" DataContext="{common:StringToIntArray Str='1;2;3;4;5'}">
-                    <ListBox ItemsSource="{Binding}">
-                    </ListBox>
-                </Border>
+                <map:Map Grid.Row="1" ZoomLevel="4" MaxZoomLevel="21" Center="{Binding SelectedCountry.Location, Converter={c:PointToMapLocation}}">
+                    <map:MapScale Margin="4" Opacity="0.5" Background="Transparent" VerticalAlignment="Bottom"/>
+                    <map:MapGraticule Opacity="0.3" Background="Transparent"/>
+                    <map:Map.MapLayer>
+                        <map:MapTileLayer TileSource="http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png"/>
+                    </map:Map.MapLayer>
+                </map:Map>
             </Grid>
 
         </GroupBox>
