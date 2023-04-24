@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace CV19.Infrastructure.Convertors
+namespace CV19.Infrastructure.Convertors;
 
 internal abstract class MultiConvertor : IMultiValueConverter
 {
