@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using System.Net;
-using System.Runtime.CompilerServices;
 
 
 const string dataUrl = 
@@ -30,7 +28,6 @@ static async Task<Stream> GetDataStream()
 
     var responce = await client.GetAsync(dataUrl, HttpCompletionOption.ResponseHeadersRead);
     return await responce.Content.ReadAsStreamAsync();
-
 }
 
 static IEnumerable<string> GetDataLines()
