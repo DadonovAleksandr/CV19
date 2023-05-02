@@ -71,6 +71,18 @@ internal class MainWindowViewModel : ViewModel
     }
     #endregion
 
+
+    #region FuelCount
+    private double _FuelCount;
+   
+    public double FuelCount
+    {
+        get => _FuelCount;
+        set => Set(ref _FuelCount, value);
+    }
+    #endregion
+
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
     #region Команды

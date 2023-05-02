@@ -10,6 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:view="clr-namespace:CV19.Views"
+        xmlns:components="clr-namespace:CV19.Components"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
@@ -93,6 +94,14 @@
             </TabItem>
             <TabItem Header="Отладка">
                 <!--<TextBox Text="{x:Static system:Enviroment.CurrentDirectory}"/>-->
+                <Grid>
+                    <components:GaugeIndicator VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                                           Width="80" Height="80" Angle="{Binding FuelCount}"/>
+                    <Slider VerticalAlignment="Top" 
+                            HorizontalContentAlignment="Stretch" Margin="90,0,0,0" Height="30"
+                            Minimum="0" Maximum="100"
+                            Value="{Binding FuelCount}"/>
+                </Grid>
             </TabItem>
             <TabItem Header="График" Visibility="Collapsed">
                 <oxy:PlotView Model="{Binding PlotModel}"/>

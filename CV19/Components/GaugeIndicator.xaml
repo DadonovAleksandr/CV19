@@ -25,11 +25,11 @@
                 <Line Stroke="Red" StrokeThickness="2"
                       X1="50" X2="50"
                       Y1="80" Y2="20" 
-                      RenderTransformOrigin="0.5,0.8">
+                      RenderTransformOrigin="0.5,0.8" >
                     <Line.RenderTransform>
-                        <TransformGroup>
+                        <TransformGroup >
                             <RotateTransform Angle="-50"/>
-                            <RotateTransform Angle="100"/>
+                            <RotateTransform Angle="{Binding Angle, RelativeSource={RelativeSource AncestorType=local:GaugeIndicator}}"/>
                         </TransformGroup>
                     </Line.RenderTransform>
                 </Line>
