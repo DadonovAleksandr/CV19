@@ -1,6 +1,7 @@
 ﻿using CV19.Infrastructure.Commands;
 using CV19.Models;
 using CV19.Services;
+using CV19.Services.Interfaces;
 using CV19.ViewModels.Base;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -16,7 +17,7 @@ internal class CountriesStatisticViewModel : ViewModel
 {
     public MainWindowViewModel MainVm { get; internal set; }
 
-    private DataService _dataService;
+    private IDataService _dataService;
 
     List<OxyPlot.DataPoint> dataPoints = new();
 
@@ -66,7 +67,7 @@ internal class CountriesStatisticViewModel : ViewModel
     #endregion
 
 
-    public CountriesStatisticViewModel(DataService dataService)
+    public CountriesStatisticViewModel(IDataService dataService)
     {
         _dataService = dataService;
 
