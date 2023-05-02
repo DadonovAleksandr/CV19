@@ -1,14 +1,13 @@
 ﻿using CV19.Infrastructure.Commands;
 using CV19.Models;
 using CV19.Services;
+using CV19.Services.Interfaces;
 using CV19.ViewModels.Base;
 using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Legends;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Input;
 
@@ -16,9 +15,9 @@ namespace CV19.ViewModels;
 
 internal class CountriesStatisticViewModel : ViewModel
 {
-    private MainWindowViewModel _mainVm { get; }
+    public MainWindowViewModel MainVm { get; internal set; }
 
-    private DataService dataService;
+    private IDataService _dataService;
 
     List<OxyPlot.DataPoint> dataPoints = new();
 
@@ -60,41 +59,17 @@ internal class CountriesStatisticViewModel : ViewModel
 
     private void OnRefreshDataCommandExecuted(object p)
     {
-        Countries = dataService.GetData();
+        Countries = _dataService.GetData();
     }
 
     private bool CanRefreshDataCommandExecute(object p) => true;
 
     #endregion
 
-    /// <summary>
-    /// Отладочный конструктор
-    /// </summary>
-    public CountriesStatisticViewModel() : this(null)
-    {
-        if(!App.IsDesignMode)
-            throw new InvalidOperationException("Вызов конструктора, непредназначенного для использования в обычном режиме");
 
-        _countries = Enumerable.Range(1, 10).Select(i => new CountryInfo
-        {
-            Name = $"Country {i}",
-            Provinces = Enumerable.Range(1, 10).Select(j => new PlaceInfo
-            {
-                Name = $"Province {j}",
-                Location = new System.Windows.Point(i, j),
-                Counts = Enumerable.Range(1, 10).Select(k => new ConfirmedCount
-                {
-                    Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
-                    Count = k
-                }).ToArray()
-            }).ToArray()
-        }).ToArray();
-    }
-
-    public CountriesStatisticViewModel(MainWindowViewModel mainVm)
+    public CountriesStatisticViewModel(IDataService dataService)
     {
-        _mainVm = mainVm;
-        dataService = new DataService();
+        _dataService = dataService;
 
         #region Команды
         RefreshDataCommand = new LambdaCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute);
