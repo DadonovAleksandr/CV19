@@ -65,29 +65,6 @@ internal class CountriesStatisticViewModel : ViewModel
 
     #endregion
 
-    /// <summary>
-    /// Отладочный конструктор
-    /// </summary>
-    //public CountriesStatisticViewModel() : this(null)
-    //{
-    //    if(!App.IsDesignMode)
-    //        throw new InvalidOperationException("Вызов конструктора, непредназначенного для использования в обычном режиме");
-
-    //    _countries = Enumerable.Range(1, 10).Select(i => new CountryInfo
-    //    {
-    //        Name = $"Country {i}",
-    //        Provinces = Enumerable.Range(1, 10).Select(j => new PlaceInfo
-    //        {
-    //            Name = $"Province {j}",
-    //            Location = new System.Windows.Point(i, j),
-    //            Counts = Enumerable.Range(1, 10).Select(k => new ConfirmedCount
-    //            {
-    //                Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
-    //                Count = k
-    //            }).ToArray()
-    //        }).ToArray()
-    //    }).ToArray();
-    //}
 
     public CountriesStatisticViewModel(DataService dataService)
     {
