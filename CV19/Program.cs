@@ -14,18 +14,11 @@ class Program
         app.Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] Args)
-    {
-        var hostBuilder = Host.CreateDefaultBuilder(Args);
-        hostBuilder.UseContentRoot(Environment.CurrentDirectory);
-        hostBuilder.ConfigureAppConfiguration((host, cfg) =>
-        {
-            cfg.SetBasePath(Environment.CurrentDirectory);
-            cfg.AddJsonFile("appsettings.json", true, true);
-        });
+    public static IHostBuilder CreateHostBuilder(string[] Args) => Host.CreateDefaultBuilder(Args)
+        .UseContentRoot(App.CurrentDirectory)
+        .ConfigureAppConfiguration((host, cfg) => cfg
+            .SetBasePath(App.CurrentDirectory)
+            .AddJsonFile("appsettings.json", true, true))
+        .ConfigureServices(App.ConfigureServices);
 
-        hostBuilder.ConfigureServices(App.ConfigureServices);
-
-        return hostBuilder;
-    }
 }

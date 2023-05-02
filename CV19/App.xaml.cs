@@ -3,7 +3,8 @@ using CV19.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Linq;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace CV19;
@@ -37,4 +38,11 @@ public partial class App : Application
         host.Dispose();
         _host = null;
     }
+
+    public static string CurrentDirectory => IsDesignMode
+        ? Path.GetDirectoryName(GetSourceCodePath())
+        : Environment.CurrentDirectory;
+
+    private static string GetSourceCodePath([CallerFilePath] string path = null) => path;
+
 }
