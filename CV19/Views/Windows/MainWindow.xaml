@@ -12,7 +12,7 @@
         xmlns:view="clr-namespace:CV19.Views"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
-        DataContext="{vm:MainWindowViewModel}"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="450" Width="1000">
     <!--<Window.DataContext>
         <vm:MainWindowViewModel/>

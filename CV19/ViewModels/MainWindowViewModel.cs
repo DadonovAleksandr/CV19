@@ -2,6 +2,7 @@
 using CV19.Models;
 using CV19.Models.Decanat;
 using CV19.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using OxyPlot;
 using OxyPlot.Series;
 using System;
@@ -127,9 +128,11 @@ internal class MainWindowViewModel : ViewModel
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(CountriesStatisticViewModel statistic)
     {
-        CountriesStatistic = new CountriesStatisticViewModel(this);
+        CountriesStatistic = statistic;
+        CountriesStatistic.MainVm = this;
+        //CountriesStatistic = new CountriesStatisticViewModel(this);
 
 
         var data_points = new List<OxyPlot.DataPoint>((int)(360/0.1));    

@@ -18,6 +18,8 @@ public partial class App : Application
     internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
     {
         services.AddSingleton<DataService>();
+
+        services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<CountriesStatisticViewModel>();
     }
 
