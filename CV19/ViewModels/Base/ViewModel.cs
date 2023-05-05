@@ -58,8 +58,8 @@ internal abstract class ViewModel : MarkupExtension, INotifyPropertyChanged, IDi
     private WeakReference _TargetRef;
     private WeakReference _RootRef;
 
-    public object TargetObject => _TargetRef.Target;
-    public object RootObject => _RootRef.Target;
+    public object TargetObject => _TargetRef?.Target;
+    public object RootObject => _RootRef?.Target;
 
 
     protected virtual void OnInitialized(object target, object property, object root)
