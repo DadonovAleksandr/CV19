@@ -75,24 +75,12 @@ internal class MainWindowViewModel : ViewModel
     #endregion
 
 
-    #region FuelCount
-    private double _FuelCount;
-   
-    public double FuelCount
+    #region Результат длительной операции
+    private string _dataValue;
+    public string DataValue
     {
-        get => _FuelCount;
-        set => Set(ref _FuelCount, value);
-    }
-    #endregion
-
-
-    #region Coefficient
-    private double _Coefficient = 1;
-
-    public double Coefficient
-    {
-        get => _Coefficient;
-        set => Set(ref _Coefficient, value);
+        get => _dataValue;
+        private set => Set(ref _dataValue, value);
     }
     #endregion
 
@@ -150,6 +138,26 @@ internal class MainWindowViewModel : ViewModel
     private bool CanDeleteNewGroupCommandExecute(object p) => p is Group group && Groups.Contains(group);
     #endregion
 
+
+    #region StartProcess
+    public ICommand StartProcessCommand { get; }
+    private void OnStartProcessCommandExecuted(object p)
+    {
+        DataValue = _asyncData.GetResult(DateTime.Now);
+    }
+    private bool CanStartProcessCommandExecute(object p) => true;
+    #endregion
+
+
+    #region StopProcess
+    public ICommand StopProcessCommand { get; }
+    private void OnStopProcessCommandExecuted(object p)
+    {
+        
+    }
+    private bool CanStopProcessCommandExecute(object p) => true;
+    #endregion
+
     #endregion
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -181,8 +189,11 @@ internal class MainWindowViewModel : ViewModel
         ChangeTabindexCommand = new LambdaCommand(OnChangeTabindexCommandExecuted, CanChangeTabindexCommandExecute);
         CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupCommandExecuted, CanCreateNewGroupCommandExecute);
         DeleteNewGroupCommand = new LambdaCommand(OnDeleteNewGroupCommandExecuted, CanDeleteNewGroupCommandExecute);
+
+        StartProcessCommand = new LambdaCommand(OnStartProcessCommandExecuted, CanStartProcessCommandExecute);
+        StopProcessCommand = new LambdaCommand(OnStopProcessCommandExecuted, CanStopProcessCommandExecute);
         #endregion
-        
+
         var students = Enumerable.Range(1, 10).Select(i => new Student()
         {
             Name = $"Имя {i}",
@@ -213,7 +224,6 @@ internal class MainWindowViewModel : ViewModel
     }
 
     
-
     /* ------------------------------------------------------------------------------------------------------------ */
 
     public ObservableCollection<Group> Groups { get; set; }

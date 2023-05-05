@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace CV19.Services.Interfaces;
 
 class AsyncDataService : IAsyncDataService
 {
+    public string GetResult(DateTime time)
+    {
+        Thread.Sleep(10_000);
 
+        return $"Result value {time}";
+    }
 }
