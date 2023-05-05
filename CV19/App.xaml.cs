@@ -16,13 +16,8 @@ public partial class App
     private static IHost _host;
     public static IHost Host => _host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
-    internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
-    {
-        services.AddTransient<IDataService, DataService>();
-
-        services.AddSingleton<MainWindowViewModel>();
-        services.AddSingleton<CountriesStatisticViewModel>();
-    }
+    internal static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services.RegisterServices()
+            .RegisterViewModels();
 
     protected override async void OnStartup(StartupEventArgs e)
     {

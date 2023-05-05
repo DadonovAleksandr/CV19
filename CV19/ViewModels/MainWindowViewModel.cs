@@ -1,6 +1,7 @@
 ﻿using CV19.Infrastructure.Commands;
 using CV19.Models;
 using CV19.Models.Decanat;
+using CV19.Services;
 using CV19.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using OxyPlot;
@@ -23,6 +24,8 @@ internal class MainWindowViewModel : ViewModel
     /* ------------------------------------------------------------------------------------------------------------ */
 
     public CountriesStatisticViewModel CountriesStatistic { get; }
+
+    private readonly IAsyncDataService _asyncData;
 
     #region Номер выбранной вкладки
     private int _selectedPageindex = 0;
@@ -151,11 +154,11 @@ internal class MainWindowViewModel : ViewModel
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
-    public MainWindowViewModel(CountriesStatisticViewModel statistic)
+    public MainWindowViewModel(CountriesStatisticViewModel statistic, IAsyncDataService asyncData)
     {
         CountriesStatistic = statistic;
+        _asyncData = asyncData;
         CountriesStatistic.MainVm = this;
-        //CountriesStatistic = new CountriesStatisticViewModel(this);
 
 
         var data_points = new List<OxyPlot.DataPoint>((int)(360/0.1));    
@@ -235,6 +238,8 @@ internal class MainWindowViewModel : ViewModel
     #endregion
 
     private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+    
+
     public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
 
     private void OnStudentsFiltred(object sender, FilterEventArgs e)
