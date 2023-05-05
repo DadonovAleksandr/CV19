@@ -11,6 +11,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:view="clr-namespace:CV19.Views"
         xmlns:components="clr-namespace:CV19.Components"
+        xmlns:convertors="clr-namespace:CV19.Infrastructure.Convertors"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
@@ -95,12 +96,28 @@
             <TabItem Header="Отладка">
                 <!--<TextBox Text="{x:Static system:Enviroment.CurrentDirectory}"/>-->
                 <Grid>
+                    <Grid.Resources>
+                        <convertors:ParametricAddValueConvertor x:Key="Mult" />
+                    </Grid.Resources>
                     <components:GaugeIndicator VerticalAlignment="Top" HorizontalContentAlignment="Left"
-                                           Width="80" Height="80" Angle="{Binding FuelCount}"/>
+                                           Width="80" Height="80">
+                        <components:GaugeIndicator.Angle>
+                            <Binding Path="FuelCount" Converter="{StaticResource Mult}">
+                                
+                            </Binding>
+                        </components:GaugeIndicator.Angle>
+                    </components:GaugeIndicator>
                     <Slider VerticalAlignment="Top" 
                             HorizontalContentAlignment="Stretch" Margin="90,0,0,0" Height="30"
                             Minimum="0" Maximum="100"
+                            ToolTip="{Binding FuelCount}"
                             Value="{Binding FuelCount}"/>
+
+                    <Slider VerticalAlignment="Top" 
+                            HorizontalContentAlignment="Stretch" Margin="90,40,0,0" Height="30"
+                            Minimum="-10" Maximum="10" SmallChange="0.1"
+                            ToolTip="{Binding Coefficient}"
+                            Value="{Binding Coefficient}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="График" Visibility="Collapsed">

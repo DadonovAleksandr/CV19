@@ -83,6 +83,17 @@ internal class MainWindowViewModel : ViewModel
     #endregion
 
 
+    #region Coefficient
+    private double _Coefficient = 1;
+
+    public double Coefficient
+    {
+        get => _Coefficient;
+        set => Set(ref _Coefficient, value);
+    }
+    #endregion
+
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
     #region Команды

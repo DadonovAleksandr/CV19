@@ -8,30 +8,30 @@ namespace CV19.Components;
 /// </summary>
 public partial class GaugeIndicator : UserControl
 {
-    #region ValueProperty
-    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-        nameof(Value), 
-        typeof(double), 
-        typeof(GaugeIndicator), 
-        new PropertyMetadata(
-            default(double),
-            OnValuePropertyChanged,
-            OnCorrectValue),
-        OnValidateValue);
+    //#region ValueProperty
+    //public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+    //    nameof(Value), 
+    //    typeof(double), 
+    //    typeof(GaugeIndicator), 
+    //    new PropertyMetadata(
+    //        default(double),
+    //        OnValuePropertyChanged,
+    //        OnCorrectValue),
+    //    OnValidateValue);
 
-    private static bool OnValidateValue(object value) => true;
+    //private static bool OnValidateValue(object value) => true;
 
-    private static object OnCorrectValue(DependencyObject d, object baseValue) => 
-        Math.Max(0, Math.Min(100, (double)baseValue));
+    //private static object OnCorrectValue(DependencyObject d, object baseValue) => 
+    //    Math.Max(0, Math.Min(100, (double)baseValue));
 
-    private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { }
+    //private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { }
 
-    public double Value
-    {
-        get => (double)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
-    #endregion
+    //public double Value
+    //{
+    //    get => (double)GetValue(ValueProperty);
+    //    set => SetValue(ValueProperty, value);
+    //}
+    //#endregion
 
 
     #region AngleProperty
@@ -45,8 +45,8 @@ public partial class GaugeIndicator : UserControl
    
     public double Angle
     {
-        get => (double)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
+        get => (double)GetValue(AngleProperty);
+        set => SetValue(AngleProperty, value);
     }
     #endregion
 
