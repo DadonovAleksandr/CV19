@@ -10,6 +10,12 @@ thread.Priority = ThreadPriority.Normal;
 
 thread.Start(42);
 
+var count = 5;
+var msg = "Hello, word";
+var timeout = 150;
+
+new Thread(() => PrintMethod(msg, count, timeout)) { IsBackground = true }.Start();
+
 
 CheckThread();
 for(var i=0; i < 100; i++)
@@ -21,6 +27,14 @@ for(var i=0; i < 100; i++)
 Console.ReadLine();
 
 
+static void PrintMethod(string message, int count, int timeout)
+{
+    for(var i = 0; i < count; i++)
+    {
+        Console.WriteLine(message); 
+        Thread.Sleep(timeout);
+    }
+}
 
 void ThreadMethod(object? obj)
 {
