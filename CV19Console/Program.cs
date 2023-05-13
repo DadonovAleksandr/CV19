@@ -27,36 +27,65 @@ clockThread.Start(42);
 //    Console.WriteLine(i);
 //}
 
-var values = new List<int>();
+//var values = new List<int>();
+
+//var threads = new Thread[10];
+//object lockObj = new object();
+
+//for (int i = 0; i < threads.Length; i++)
+//{
+//    threads[i] = new Thread(() =>
+//    {
+//        for (int j = 0; j < 10; j++)
+//        {
+//            lock (lockObj)
+//                values.Add(Thread.CurrentThread.ManagedThreadId);
+//            Thread.Sleep(1);
+//        }
+//    });    
+//}
+
+//foreach (var thread in threads)
+//    thread.Start();
+
+//if(!clockThread.Join(200))
+//{
+//    //clockThread.Abort();        // Превывает поток в любой точке процесса
+//    clockThread.Interrupt();
+//}
+
+//Mutex mutex = new Mutex();
+//Semaphore semaphore = new Semaphore(0, 10);
+//semaphore.WaitOne();
+//// действия в крит. секции
+//semaphore.Release();
+
+ManualResetEvent manualResetEvent = new ManualResetEvent(false);
+AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+
+EventWaitHandle threadguidance = manualResetEvent;
 
 var threads = new Thread[10];
-object lockObj = new object();
-
 for (int i = 0; i < threads.Length; i++)
 {
+    var local_i = i;
     threads[i] = new Thread(() =>
     {
-        for (int j = 0; j < 10; j++)
-        {
-            lock (lockObj)
-                values.Add(Thread.CurrentThread.ManagedThreadId);
-            Thread.Sleep(1);
-        }
-    });    
-}
+        Console.WriteLine($"Поток id: {Thread.CurrentThread.ManagedThreadId} стартовал");
 
-foreach (var thread in threads)
-    thread.Start();
+        threadguidance.WaitOne();
 
-if(!clockThread.Join(200))
-{
-    //clockThread.Abort();        // Превывает поток в любой точке процесса
-    clockThread.Interrupt();
+        Console.WriteLine($"Value: {local_i}");
+        Console.WriteLine($"Поток id: {Thread.CurrentThread.ManagedThreadId} - завершился");
+    });
+    threads[i].Start(); 
 }
+threadguidance.Set();
+
 
 Console.ReadLine();
-Console.WriteLine(string.Join(",", values));
-Console.ReadLine();
+//Console.WriteLine(string.Join(",", values));
+//Console.ReadLine();
 
 static void PrintMethod(string message, int count, int timeout)
 {
