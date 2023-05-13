@@ -1,31 +1,56 @@
 ﻿using System.Threading;
+using System.Collections.Concurrent;
 
 
 Thread.CurrentThread.Name = "Main thread";
 
-var thread = new Thread(ThreadMethod);
-thread.Name = "Other thread";
-thread.IsBackground = true;
-thread.Priority = ThreadPriority.Normal;
+//var thread = new Thread(ThreadMethod);
+//thread.Name = "Other thread";
+//thread.IsBackground = true;
+//thread.Priority = ThreadPriority.Normal;
 
-thread.Start(42);
+//thread.Start(42);
 
-var count = 5;
-var msg = "Hello, word";
-var timeout = 150;
+//var count = 5;
+//var msg = "Hello, word";
+//var timeout = 150;
 
-new Thread(() => PrintMethod(msg, count, timeout)) { IsBackground = true }.Start();
+//new Thread(() => PrintMethod(msg, count, timeout)) { IsBackground = true }.Start();
 
 
-CheckThread();
-for(var i=0; i < 100; i++)
+//CheckThread();
+
+//for(var i=0; i < 100; i++)
+//{
+//    Thread.Sleep(100);
+//    Console.WriteLine(i);
+//}
+
+var values = new List<int>();
+
+var threads = new Thread[10];
+object lockObj = new object();
+
+for (int i = 0; i < threads.Length; i++)
 {
-    Thread.Sleep(100);
-    Console.WriteLine(i);
+    threads[i] = new Thread(() =>
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            lock (lockObj)
+                values.Add(Thread.CurrentThread.ManagedThreadId);
+            Thread.Sleep(1);
+        }
+    });    
 }
-    
-Console.ReadLine();
 
+foreach (var thread in threads)
+    thread.Start();
+
+
+Console.ReadLine();
+Console.WriteLine(string.Join(",", values));
+Console.ReadLine();
 
 static void PrintMethod(string message, int count, int timeout)
 {
