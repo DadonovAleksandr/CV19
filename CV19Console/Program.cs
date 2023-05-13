@@ -1,7 +1,8 @@
 ﻿using System.Threading;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
-bool __threadUpdate;
+bool _threadUpdate = false;
 
 Thread.CurrentThread.Name = "Main thread";
 
@@ -87,6 +88,7 @@ Console.ReadLine();
 //Console.WriteLine(string.Join(",", values));
 //Console.ReadLine();
 
+[MethodImpl(MethodImplOptions.Synchronized)]
 static void PrintMethod(string message, int count, int timeout)
 {
     for(var i = 0; i < count; i++)
@@ -102,7 +104,7 @@ void ThreadMethod(object? obj)
     Console.WriteLine(value);
 
     CheckThread();
-    while(__threadUpdate)
+    while(_threadUpdate)
     {
         Thread.Sleep(100);
         Console.WriteLine(DateTime.Now);
