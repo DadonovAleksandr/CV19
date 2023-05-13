@@ -1,15 +1,16 @@
 ﻿using System.Threading;
 using System.Collections.Concurrent;
 
+bool __threadUpdate;
 
 Thread.CurrentThread.Name = "Main thread";
 
-//var thread = new Thread(ThreadMethod);
-//thread.Name = "Other thread";
-//thread.IsBackground = true;
-//thread.Priority = ThreadPriority.Normal;
+var clockThread = new Thread(ThreadMethod);
+clockThread.Name = "Other thread";
+clockThread.IsBackground = true;
+clockThread.Priority = ThreadPriority.Normal;
 
-//thread.Start(42);
+clockThread.Start(42);
 
 //var count = 5;
 //var msg = "Hello, word";
@@ -47,6 +48,11 @@ for (int i = 0; i < threads.Length; i++)
 foreach (var thread in threads)
     thread.Start();
 
+if(!clockThread.Join(200))
+{
+    //clockThread.Abort();        // Превывает поток в любой точке процесса
+    clockThread.Interrupt();
+}
 
 Console.ReadLine();
 Console.WriteLine(string.Join(",", values));
@@ -67,7 +73,7 @@ void ThreadMethod(object? obj)
     Console.WriteLine(value);
 
     CheckThread();
-    for(var i = 0; i < 100; i++)
+    while(__threadUpdate)
     {
         Thread.Sleep(100);
         Console.WriteLine(DateTime.Now);
