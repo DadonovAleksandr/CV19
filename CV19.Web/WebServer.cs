@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CV19.Web;
 
-internal class ContextReceiverEventArgs : EventArgs 
+public class ContextReceiverEventArgs : EventArgs 
 {
     public HttpListenerContext Context { get; }
 
@@ -16,14 +16,14 @@ internal class ContextReceiverEventArgs : EventArgs
     
 }
 
-internal class WebServer
+public class WebServer
 {
     //private TcpListener _listener = new TcpListener(new IPEndPoint(IPAddress.Any, 8080));
     private HttpListener _listener;
     private readonly int _port;
     private bool _enabled;
     private readonly object _lock = new object();
-    private event EventHandler<ContextReceiverEventArgs> RequestReceived;
+    
 
 
     public int Port => _port;
@@ -38,7 +38,7 @@ internal class WebServer
     }
 
     public WebServer(int port) => _port = port;
-    
+    public event EventHandler<ContextReceiverEventArgs> RequestReceived;
 
     public void Start()
     {
@@ -48,8 +48,8 @@ internal class WebServer
             if (_enabled) return;
 
             _listener = new HttpListener();
-            _listener.Prefixes.Add($"http://*:{_port}");
-            _listener.Prefixes.Add($"http://+:{_port}");
+            _listener.Prefixes.Add($"http://*:{_port}/"); // netsh http add user urlacl url=http://*:8080/ user=user_name
+            _listener.Prefixes.Add($"http://+:{_port}/"); // netsh http add user urlacl url=http://+:8080/ user=user_name
             _enabled = true;
         }
         ListenAsync();

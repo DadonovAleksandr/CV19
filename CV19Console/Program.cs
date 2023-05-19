@@ -1,6 +1,12 @@
 ﻿using System.Threading;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using CV19Console;
+
+WebServerTest.Run();
+
+Console.ReadLine();
+
 
 bool _threadUpdate = false;
 
