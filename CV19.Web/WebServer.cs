@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace CV19.Web;
 
+internal class ContextReceiverEventArgs : EventArgs 
+{
+    public HttpListenerContext Context { get; }
+
+    public ContextReceiverEventArgs(HttpListenerContext context) => Context = context;
+    
+}
+
 internal class WebServer
 {
     //private TcpListener _listener = new TcpListener(new IPEndPoint(IPAddress.Any, 8080));
@@ -15,6 +23,8 @@ internal class WebServer
     private readonly int _port;
     private bool _enabled;
     private readonly object _lock = new object();
+    private event EventHandler<ContextReceiverEventArgs> RequestReceived;
+
 
     public int Port => _port;
     public bool Enabled
@@ -42,7 +52,7 @@ internal class WebServer
             _listener.Prefixes.Add($"http://+:{_port}");
             _enabled = true;
         }
-        Listen();
+        ListenAsync();
     }
 
     public void Stop() 
@@ -58,9 +68,25 @@ internal class WebServer
         }
     }
 
-    private void Listen()
+    private async void ListenAsync()
     {
+        var listener = _listener;
+        listener.Start();
 
+
+        while(_enabled) 
+        {
+            var context = await listener.GetContextAsync().ConfigureAwait(false);
+            ProcessRequest(context);
+            
+        }
+
+        listener.Stop();
+    }
+
+    private void ProcessRequest(HttpListenerContext context)
+    {
+        RequestReceived?.Invoke(this, new ContextReceiverEventArgs(context));
     }
 
 
