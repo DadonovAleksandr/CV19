@@ -25,6 +25,7 @@ internal class MainWindowViewModel : ViewModel
     /* ------------------------------------------------------------------------------------------------------------ */
 
     public CountriesStatisticViewModel CountriesStatistic { get; }
+    public WebServerViewModel WebServer { get; }
 
     private readonly IAsyncDataService _asyncData;
 
@@ -169,9 +170,10 @@ internal class MainWindowViewModel : ViewModel
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
-    public MainWindowViewModel(CountriesStatisticViewModel statistic, IAsyncDataService asyncData)
+    public MainWindowViewModel(CountriesStatisticViewModel statistic, IAsyncDataService asyncData, WebServerViewModel webServer)
     {
         CountriesStatistic = statistic;
+        WebServer = webServer;
         _asyncData = asyncData;
         CountriesStatistic.MainVm = this;
 
