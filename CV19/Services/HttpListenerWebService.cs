@@ -22,7 +22,7 @@ internal class HttpListenerWebService : IWebServerService
     private void OnRequestReceived(object? sender, ContextReceiverEventArgs e)
     {
         using var writer = new StreamWriter(e.Context.Response.OutputStream);
-        writer.WriteLine("CV-19 Application");
+        writer.WriteLine($"CV-19 Application {DateTime.Now}");
     }
 
 

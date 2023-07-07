@@ -67,21 +67,21 @@ public class WebServer
         var listener = _listener;
         listener.Start();
 
-
+        HttpListenerContext context = null;
         while(_enabled) 
         {
-            var context = await listener.GetContextAsync().ConfigureAwait(false);
-            ProcessRequest(context);
-            
+            var get_context_task = listener.GetContextAsync();
+            if(context != null)
+                ProcessRequestAsync(context);
+            context = await get_context_task.ConfigureAwait(false);
         }
 
         listener.Stop();
     }
 
-    private void ProcessRequest(HttpListenerContext context)
+    private async void ProcessRequestAsync(HttpListenerContext context)
     {
-        RequestReceived?.Invoke(this, new ContextReceiverEventArgs(context));
+        await Task.Run(() => RequestReceived?.Invoke(this, new ContextReceiverEventArgs(context)));
     }
-
 
 }
