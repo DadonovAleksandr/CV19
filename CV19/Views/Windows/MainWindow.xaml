@@ -12,10 +12,16 @@
         xmlns:view="clr-namespace:CV19.Views"
         xmlns:components="clr-namespace:CV19.Components"
         xmlns:convertors="clr-namespace:CV19.Infrastructure.Convertors"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="450" Width="1000">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding CountriesStatistic.RefreshDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>-->
