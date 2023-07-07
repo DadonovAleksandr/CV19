@@ -2,6 +2,7 @@
 using CV19.Web;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace CV19.Services;
 
@@ -21,6 +22,7 @@ internal class HttpListenerWebService : IWebServerService
 
     private void OnRequestReceived(object? sender, ContextReceiverEventArgs e)
     {
+        Thread.Sleep(3000);
         using var writer = new StreamWriter(e.Context.Response.OutputStream);
         writer.WriteLine($"CV-19 Application {DateTime.Now}");
     }
