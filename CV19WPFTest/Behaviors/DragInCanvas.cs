@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,43 @@ public class DragInCanvas : Behavior<UIElement>
 {
     private Point _startPoint;
     private Canvas _canvas;
+
+    #region PositionX : double - Горизонтальное смещение
+
+    public static readonly DependencyProperty PositionXProperty =
+        DependencyProperty.Register(
+            nameof(PositionX),
+            typeof(double),
+            typeof(DragInCanvas),
+            new PropertyMetadata(default(double)));
+
+    [Description("Горизонтальное смещение")]
+    public double PositionX
+    {
+        get => (double)GetValue(PositionXProperty);
+        set => SetValue(PositionXProperty, value);
+    }
+
+    #endregion
+
+    #region PositionY : double - Вертикальное смещение
+
+    public static readonly DependencyProperty PositionYProperty =
+        DependencyProperty.Register(
+            nameof(PositionY),
+            typeof(double),
+            typeof(DragInCanvas),
+            new PropertyMetadata(default(double)));
+
+    [Description("Вертикальное смещение")]
+    public double PositionY
+    {
+        get => (double)GetValue(PositionYProperty);
+        set => SetValue(PositionYProperty, value);
+    }
+
+    #endregion
+
 
     protected override void OnAttached()
     {
@@ -56,5 +94,7 @@ public class DragInCanvas : Behavior<UIElement>
         obj.SetValue(Canvas.LeftProperty, delta.X);
         obj.SetValue(Canvas.TopProperty, delta.Y);
 
+        PositionX = delta.X;
+        PositionY = delta.Y;
     }
 }
