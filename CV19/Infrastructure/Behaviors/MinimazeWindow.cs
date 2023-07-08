@@ -1,12 +1,11 @@
-﻿using Microsoft.Xaml.Behaviors;
-using System;
+﻿using CV19.Infrastructure.Extensions;
+using Microsoft.Xaml.Behaviors;
 using System.Windows.Controls;
 using System.Windows;
-using CV19.Infrastructure.Extensions;
 
 namespace CV19.Infrastructure.Behaviors;
 
-internal class WindowStateChange : Behavior<Button>
+internal class MinimazeWindow : Behavior<Button>
 {
     protected override void OnAttached() => AssociatedObject.Click += OnButtonClick;
 
@@ -17,11 +16,6 @@ internal class WindowStateChange : Behavior<Button>
         var window = AssociatedObject.FindVisualRoot() as Window;
         if (window == null) return;
 
-        window.WindowState = window.WindowState switch
-        {
-            WindowState.Normal => WindowState.Maximized,
-            WindowState.Maximized => WindowState.Normal,
-            _ => window.WindowState
-        };
+        window.WindowState = WindowState.Minimized;
     }
 }

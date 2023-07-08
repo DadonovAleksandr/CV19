@@ -7,23 +7,10 @@ namespace CV19.Infrastructure.Behaviors;
 
 class CloseWindow : Behavior<Button>
 {
-    protected override void OnAttached()
-    {
-        AssociatedObject.Click += OnButtonClick;
-    }
+    protected override void OnAttached() => AssociatedObject.Click += OnButtonClick;
 
-    protected override void OnDetaching()
-    { 
-        AssociatedObject.Click -= OnButtonClick;
-    }
+    protected override void OnDetaching() => AssociatedObject.Click -= OnButtonClick;
 
-    private void OnButtonClick(object sender, RoutedEventArgs e)
-    {
-        var button = AssociatedObject;
+    private void OnButtonClick(object sender, RoutedEventArgs e) => (AssociatedObject.FindVisualRoot() as Window)?.Close();
 
-        var window = button.FindVisualRoot() as Window;
-        window?.Close();
-    }
-
-    
 }
