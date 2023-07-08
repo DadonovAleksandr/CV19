@@ -34,4 +34,8 @@ public partial class MainWindow : Window
         return $"Value: {time}";
     }
 
+    private void Ellipse_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+
+    }
 }
