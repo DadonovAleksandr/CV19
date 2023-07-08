@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CV19.Views.Windows"
         mc:Ignorable="d"
         Style="{StaticResource CV19WindowStyle}"
+        Icon="../../Resources/WindowIcon.png"
         Title="TestWindow" Height="450" Width="800">
     <Grid>
         <Button VerticalAlignment="Top" HorizontalAlignment="Left"
