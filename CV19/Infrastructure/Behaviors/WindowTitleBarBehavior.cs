@@ -24,11 +24,39 @@ internal class WindowTitleBarBehavior : Behavior<UIElement>
 
     private void OnMouseDown(object sender, MouseButtonEventArgs e)
     {
+        switch(e.ClickCount)
+        {
+            case 1:
+                DragMove();
+                break;
+            default:
+                Maximize(); 
+                break;  
+        }
+
         if (e.ClickCount > 1) return;
 
+        
+    }
+
+    private void DragMove()
+    {
         var window = AssociatedObject.FindVisualRoot() as Window;
         if (window == null) return;
         window?.DragMove();
+    }
+
+    private void Maximize()
+    {
+        var window = AssociatedObject.FindVisualRoot() as Window;
+        if (window == null) return;
+
+        window.WindowState = window.WindowState switch
+        {
+            WindowState.Normal => WindowState.Maximized,
+            WindowState.Maximized => WindowState.Normal,
+            _ => window.WindowState
+        };
     }
 
 
