@@ -58,7 +58,11 @@
                         </i:Interaction.Behaviors>
                         <DockPanel Height="32">
                             <Image DockPanel.Dock="Left" Name="PART_Icon"
-                                   Source="{TemplateBinding Icon}"/>
+                                   Source="{TemplateBinding Icon}">
+                                <i:Interaction.Behaviors>
+                                    <b:WindowSystemIconBehavior/>
+                                </i:Interaction.Behaviors>
+                            </Image>
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                 <StackPanel.Resources>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CV19WindowHeaderButtonsStyle}"/>
