@@ -27,13 +27,9 @@ internal class WindowSystemIconBehavior : Behavior<Image>
         e.Handled = true;
 
         if(e.ClickCount > 1 ) 
-        { 
             window.Close(); 
-        }
         else
-        {
             window.SendMessage(WM.SYSCOMMAND, SC.KEYMENU);
-        }
 
     }
 
