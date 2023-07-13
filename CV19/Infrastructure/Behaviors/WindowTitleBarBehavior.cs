@@ -18,7 +18,7 @@ internal class WindowTitleBarBehavior : Behavior<UIElement>
     
     protected override void OnDetaching()
     {
-        _window.MouseLeftButtonDown += OnMouseDown;
+        _window.MouseLeftButtonDown -= OnMouseDown;
         _window = null;
     }
 
