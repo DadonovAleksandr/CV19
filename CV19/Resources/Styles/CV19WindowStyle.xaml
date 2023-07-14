@@ -44,6 +44,9 @@
                     Margin="7"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
+                <Border.Effect>
+                    <BlurEffect RenderingBias="{TemplateBinding BorderThickness}"/>
+                </Border.Effect>
                 
             </Border>
             <Grid Name="PART_MainGrid"
@@ -51,6 +54,9 @@
                   Background="{TemplateBinding Background}"
                   TextOptions.TextRenderingMode="ClearType"
                   TextOptions.TextFormattingMode="Display">
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.5" BlurRadius="7" ShadowDepth="4" Color="Blue"/>
+                </Grid.Effect>
                 <DockPanel>
                     <Grid Name="PART_TitleBar" DockPanel.Dock="Top" Background="WhiteSmoke">
                         <i:Interaction.Behaviors>
@@ -213,6 +219,7 @@
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="BorderThickness" Value="7"/>
+        <Setter Property="BorderBrush" Value="DarkBlue"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
