@@ -64,6 +64,7 @@
                         </i:Interaction.Behaviors>
                         <DockPanel Height="32">
                             <Image DockPanel.Dock="Left" Name="PART_Icon"
+                                   Margin="3,-7,0,0"
                                    Source="{TemplateBinding Icon}">
                                 <i:Interaction.Behaviors>
                                     <b:WindowSystemIconBehavior/>
