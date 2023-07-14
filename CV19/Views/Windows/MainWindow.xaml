@@ -15,6 +15,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        Style="{StaticResource CV19WindowStyle}"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}" Height="450" Width="1000">
     <i:Interaction.Triggers>

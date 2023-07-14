@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:CV19"
              xmlns:vm="clr-namespace:CV19.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             StartupUri="Views/Windows/TestWindow.xaml">
+             StartupUri="Views/Windows/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
