@@ -10,6 +10,9 @@ internal static class ServiceRegistration
         services.AddSingleton<IDataService, DataService>();
         services.AddTransient<IAsyncDataService, AsyncDataService>();
         services.AddTransient<IWebServerService, HttpListenerWebService>();
+        
+        services.AddSingleton<StudentsRepository>();
+        services.AddSingleton<GroupsRepository>();
 
         return services;
     }
