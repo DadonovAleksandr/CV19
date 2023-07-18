@@ -1,10 +1,5 @@
 ﻿using CV19.Models.Decanat;
 using CV19.Services.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CV19.Services;
 
