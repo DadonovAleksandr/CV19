@@ -11,7 +11,7 @@ interface IRepository<T> where T : IEntity
 {
     void Add(T item);
     bool Remove(T item);
-    void Update(T item);
+    void Update(int id, T item);
 
     T Get(int id) => GetAll().FirstOrDefault(item => item.Id == id);
     IEnumerable<T> GetAll();   

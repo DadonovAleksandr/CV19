@@ -44,6 +44,12 @@
                     <MenuItem Header="Включить" Command="{Binding StartCommand}"/>
                     <MenuItem Header="Отключить" Command="{Binding StopCommand}"/>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Управление студентами">
+                    <MenuItem.Command>
+                        <cmd:ManageStudentsCommand/>
+                    </MenuItem.Command>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
