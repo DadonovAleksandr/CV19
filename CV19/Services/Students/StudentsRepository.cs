@@ -1,7 +1,7 @@
 ﻿using CV19.Models.Decanat;
 using CV19.Services.Base;
 
-namespace CV19.Services;
+namespace CV19.Services.Students;
 
 class StudentsRepository : RepositoryInMemory<Student>
 {
@@ -12,14 +12,5 @@ class StudentsRepository : RepositoryInMemory<Student>
         destination.Patronymic = source.Patronymic;
         destination.Birthday = source.Birthday;
         destination.Rating = source.Rating;
-    }
-}
-
-class GroupsRepository : RepositoryInMemory<Group>
-{
-    protected override void Update(Group source, Group destination)
-    {
-        destination.Name = source.Name;
-        destination.Description = source.Description;
     }
 }
