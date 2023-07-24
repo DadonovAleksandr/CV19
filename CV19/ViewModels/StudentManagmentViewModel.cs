@@ -1,17 +1,53 @@
-﻿using CV19.Models.Decanat;
+﻿using CV19.Infrastructure.Commands;
+using CV19.Models.Decanat;
 using CV19.Services.Students;
 using CV19.ViewModels.Base;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CV19.ViewModels;
 
 internal class StudentManagmentViewModel : ViewModel
 {
     private readonly StudentsManager _studentsManager;
+
+    public IEnumerable<Student> Students => _studentsManager.Students;
+    public IEnumerable<Group> Groups => _studentsManager.Groups;
+
+    #region Команды
+
+    #region EditStudentCommand - Команда редактирования студента
+    private ICommand _editStudentCommand;
+    public ICommand EditStudentCommand => 
+        _editStudentCommand ?? new LambdaCommand(OnEditStudentCommandExecuted, CanEditStudentCommandExecute);
+
+    private bool CanEditStudentCommandExecute(object p) => p is Student;
+    private void OnEditStudentCommandExecuted(object p)
+    {
+        var student = (Student)p;
+
+    }
+    #endregion
+
+    #region CreateNewStudentCommand - Команда создания нового студента
+    private ICommand _createNewStudentCommand;
+    public ICommand CreateNewStudentCommand =>
+        _createNewStudentCommand ?? new LambdaCommand(OnCreateNewStudentCommandExecuted, CanCreateNewStudentCommandExecute);
+
+    private bool CanCreateNewStudentCommandExecute(object p) => p is Group;
+    private void OnCreateNewStudentCommandExecuted(object p)
+    {
+        var group = (Group)p;
+
+    }
+    #endregion
+
+    #endregion
+    public StudentManagmentViewModel(StudentsManager studentsManager)
+    {
+        _studentsManager = studentsManager;
+    }
+
 
     #region Title - заголовок окна
     private string _title = "Управление студентами";
@@ -43,11 +79,5 @@ internal class StudentManagmentViewModel : ViewModel
     }
     #endregion
 
-    public IEnumerable<Student> Students => _studentsManager.Students;
-    public IEnumerable<Group> Groups => _studentsManager.Groups;
 
-    public StudentManagmentViewModel(StudentsManager studentsManager)
-    {
-        _studentsManager = studentsManager;
-    }
 }
