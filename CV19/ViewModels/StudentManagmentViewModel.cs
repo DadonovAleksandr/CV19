@@ -33,6 +33,16 @@ internal class StudentManagmentViewModel : ViewModel
     }
     #endregion
 
+    #region SelectedStudent - выбранный студент
+    private Student _selectedStudent;
+
+    public Student SelectedStudent
+    {
+        get => _selectedStudent;
+        set => Set(ref _selectedStudent, value);
+    }
+    #endregion
+
     public IEnumerable<Student> Students => _studentsManager.Students;
     public IEnumerable<Group> Groups => _studentsManager.Groups;
 

@@ -1,6 +1,5 @@
 ﻿using CV19.Models.Decanat;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace CV19.Services.Students;
