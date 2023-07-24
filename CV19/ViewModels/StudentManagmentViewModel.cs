@@ -2,7 +2,9 @@
 using CV19.Models.Decanat;
 using CV19.Services.Students;
 using CV19.ViewModels.Base;
+using CV19.Views.Windows;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CV19.ViewModels;
@@ -25,6 +27,21 @@ internal class StudentManagmentViewModel : ViewModel
     private void OnEditStudentCommandExecuted(object p)
     {
         var student = (Student)p;
+
+        var dlg = new StudentEditorWindow
+        {
+            FirstName = student.Name,
+            LastName = student.Surname,
+            Patronymic = student.Patronymic,
+            Rating = student.Rating,
+            Birthday = student.Birthday,
+        };
+
+        if (dlg.ShowDialog() == true)
+            MessageBox.Show("Пользователь выполнил редактирование");
+        else
+            MessageBox.Show("Пользователь отказался");
+
 
     }
     #endregion
