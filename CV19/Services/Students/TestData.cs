@@ -28,7 +28,7 @@ internal class TestData
                     Surname = $"Фамилия {index}",
                     Patronymic = $"Отчество {index++}",
                     Birthday = DateTime.Now.Subtract(TimeSpan.FromDays(300 * random.Next(19, 30))),
-                    Rating = random.Next() * 100
+                    Rating = random.NextDouble() * 100
 
                 });
         }
