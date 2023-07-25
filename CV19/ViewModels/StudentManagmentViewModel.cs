@@ -61,6 +61,19 @@ internal class StudentManagmentViewModel : ViewModel
     }
     #endregion
 
+    #region TestCommand - Команда Test
+    private ICommand _TestCommand;
+    public ICommand TestCommand =>
+        _TestCommand ?? new LambdaCommand(OnTestCommandExecuted, CanTestCommandExecute);
+
+    private bool CanTestCommandExecute(object p) => true;
+    private void OnTestCommandExecuted(object p)
+    {
+        var value = _userDialog.GetStringValue("Введите строку", "123", "Значение по умолчанию");
+        _userDialog.ShowInformation($"Введено: {value}", "123");
+    }
+    #endregion
+
     #endregion
     public StudentManagmentViewModel(StudentsManager studentsManager, IUserDialogService userDialog)
     {

@@ -17,21 +17,25 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Группы" Grid.Column="0">
-            <ListBox ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}" SelectedIndex="0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="m:Group">
-                        <DockPanel>
-                            <TextBlock DockPanel.Dock="Right" Text="{Binding Students.Count, StringFormat=({0})}"/>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <DockPanel>
+                <Button DockPanel.Dock="Bottom" Content="Тестовая кнопка" Margin="3"
+                        Command="{Binding TestCommand}"/>
+                <ListBox ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}" SelectedIndex="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="m:Group">
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Right" Text="{Binding Students.Count, StringFormat=({0})}"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
         </GroupBox>
         <GroupBox Header="Студенты" Grid.Column="1">
             <DockPanel>
