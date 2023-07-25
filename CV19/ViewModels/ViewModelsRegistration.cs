@@ -9,6 +9,7 @@ internal static class ViewModelsRegistration
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<CountriesStatisticViewModel>();
         services.AddSingleton<WebServerViewModel>();
+        services.AddTransient<StudentManagmentViewModel>();
 
         return services;
     }
