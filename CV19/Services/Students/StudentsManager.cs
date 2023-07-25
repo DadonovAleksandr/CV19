@@ -20,4 +20,24 @@ internal class StudentsManager
         _students = students;
         _groups = groups;
     }
+
+    public void Update(Student student) => _students.Update(student.Id, student);
+
+    internal bool Create(Student student, string groupName)
+    {
+        if(student == null) { throw new ArgumentNullException(nameof(student)); }
+        if (string.IsNullOrWhiteSpace(groupName))
+        {
+            throw new ArgumentException($"Некорректное имя группы: {groupName}");
+        }
+        var group = _groups.Get(groupName);
+        if (group == null) 
+        {
+            group = new Group { Name = groupName };
+            _groups.Add(group);
+        }
+        group.Students.Add(student);
+        _students.Add(student);
+        return true;
+    }
 }

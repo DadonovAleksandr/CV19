@@ -16,6 +16,8 @@ internal static class ServiceRegistration
         services.AddSingleton<GroupsRepository>();
         services.AddSingleton<StudentsManager>();
 
+        services.AddTransient<IUserDialogService, WindowsUserDialogService>();
+
         return services;
     }
 }
